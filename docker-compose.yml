@@ -1,0 +1,68 @@
+version: "2.9"
+services:
+  app:
+    build:
+      context: ./bin/app
+    container_name: ${COMPOSER_PROJECT_NAME}_app
+    working_dir: /usr/share/nginx/html
+    networks:
+      - container_default
+    volumes:
+      - ${DOCUMENT_ROOT-./www}:/usr/share/nginx/html
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./config/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
+    ports:
+      - ":9000"
+  mysql:
+    build:
+      context: ./bin/mysql
+    container_name: ${COMPOSER_PROJECT_NAME}_database
+    restart: always
+    links:
+      - app
+    depends_on:
+      - app
+    ports:
+      - "9909:3306"
+    networks:
+      - container_default
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ${MYSQL_PATH-./config/mysql/mysql/}:/var/lib/mysql
+      - ${MYSQL_LOGS-./logs/mysql/}:/var/log/mysql
+  cli:
+    build:
+      context: ./bin/cli
+    container_name: ${COMPOSER_PROJECT_NAME}_cli
+    working_dir: /usr/share/nginx/html
+    depends_on:
+      - app
+    networks:
+      - container_default
+    volumes_from:
+      - app
+  redis:
+    build:
+      context: ./bin/redis
+    container_name: ${COMPOSER_PROJECT_NAME}_redis
+    networks:
+      - container_default
+  nginx:
+    build:
+      context: ./bin/nginx
+    container_name: ${COMPOSER_PROJECT_NAME}_webserver
+    links:
+      - app
+    depends_on:
+      - app
+    ports:
+      - "8100:80"
+    networks:
+      - container_default
+    volumes_from:
+      - app
+networks:
+  container_default:
+    external: true
+
