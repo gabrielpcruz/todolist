@@ -62,6 +62,9 @@ services:
       - container_default
     volumes_from:
       - app
+    volumes:
+      - ${VHOSTS_DIR-./config/nginx/sites-enabled}:/etc/nginx/conf.d
+      - ${LOG_DIR-./logs/nginx}:/var/log/nginx
 networks:
   container_default:
     external: true
