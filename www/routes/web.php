@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\ArrozControle;
+use App\Http\Site\ArrozControle;
 use Slim\App;
 
 return function (App $app) {

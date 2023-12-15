@@ -4,7 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\App;
 
-var_dump(1);
+define('ROOT_PATH', dirname(__DIR__));
 
 
 $app = App::bootstrap();

@@ -4,16 +4,15 @@ use Adbar\Dot;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
-use Twig\Environment as Twig;
+use Slim\Views\Twig;
 use Twig\Extension\DebugExtension;
-use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 
 return [
     'settings' => function () {
         $enviromentSettings = [];
 
-        $settings = (require_once __DIR__ . '/enviroment/settings_default.php');
+        $settings = (require_once __DIR__ . '/enviroment/settings.php');
 
         $settings = array_replace_recursive($settings, $enviromentSettings);
 
@@ -36,6 +35,7 @@ return [
         $settings = $container->get('settings');
 
         $rootPath = $settings->get('view.path');
+
         $templates = $settings->get('view.templates');
         $viewSettings = $settings->get('view.settings');
 
@@ -47,7 +47,6 @@ return [
 
         $twig = new Twig($loader, $viewSettings);
         $twig->addExtension(new DebugExtension());
-        $twig->addExtension(new IntlExtension());
 
 
         return $twig;
