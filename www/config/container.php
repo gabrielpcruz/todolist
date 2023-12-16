@@ -1,6 +1,8 @@
 <?php
 
 use Adbar\Dot;
+use App\Twig\AssetsExtension;
+use App\Twig\VersionExtension;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -47,6 +49,8 @@ return [
 
         $twig = new Twig($loader, $viewSettings);
         $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new AssetsExtension());
+        $twig->addExtension(new VersionExtension());
 
 
         return $twig;

@@ -17,6 +17,6 @@ class ArrozControle extends SiteController
      */
     public function index(Request $request, Response $response): Response
     {
-        return $this->twig->render($response, '@site/arroz/arroz.twig');
+        return $this->view($response, 'arroz/arroz.twig');
     }
 }

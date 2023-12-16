@@ -1,6 +1,48 @@
 {% extends '@layout/layout.twig' %}
 
-{% block content %}
+{% block title %}
+    TODO LIST
+{% endblock title %}
 
-asdasdddd       asdsad
+{% block content %}
+    <div id="kanban" class="row d-flex flex-row">
+        <div id="board-1" class="board rounded-3 p-2">
+            <div class="head-board rounded-1 d-flex justify-content-start">
+                <p class="fw-semibold">Board padrão 1</p>
+            </div>
+
+            <div class="dropzone d-flex flex-column">
+                <div id="card-1" class="card p-2" draggable="true">Card Board 1 | asd sad dsaf dsaf sdaf sdfsdaf sd f</div>
+            </div>
+
+            <div class="footer-board rounded-1 d-grid gap-2">
+                <button class="btn btn-secondary">Adicionar um cartão</button>
+            </div>
+        </div>
+
+        <div id="board-2" class="board rounded-3 p-2">
+            <div class="head-board rounded-1 d-flex justify-content-start">
+                <p class="fw-semibold">Board padrão 2</p>
+            </div>
+            <div class="dropzone d-flex flex-column">
+                <div id="card-2" class="card p-2" draggable="true">Card Board 2 | FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</div>
+            </div>
+            <div class="footer-board rounded-1 d-grid gap-2">
+                <button class="btn btn-secondary">Adicionar um cartão</button>
+            </div>
+        </div>
+
+        <div id="board-3" class="board rounded-3 p-2">
+            <div class="head-board rounded-1 d-flex justify-content-start">
+                <p class="fw-semibold">Board padrão 3</p>
+            </div>
+            <div class="dropzone d-flex flex-column">
+                <div id="card-3" class="card p-2" draggable="true">Card Board 3 | HHHHHHHHHHHHHHHHHHHHHHHHHHHH</div>
+                <div class="footer-board rounded-1 d-grid gap-2">
+                    <button class="btn btn-secondary">Adicionar um cartão</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 {% endblock content %}

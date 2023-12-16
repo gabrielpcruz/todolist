@@ -2,6 +2,9 @@
 
 
 return [
+    'path' => [
+        'assets' => 'assets/',
+    ],
     'view' => [
         'path' => ROOT_PATH . '/resources/views',
         'templates' => [

@@ -2,13 +2,14 @@
 
 namespace App;
 
+use Adbar\Dot;
 use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Slim\App as SlimApp;
-use Twig\Error\Error;
-
 
 class App
 {
@@ -57,5 +58,25 @@ class App
         }
 
         return self::$app;
+    }
+
+    /**
+     * @return Dot
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public static function settings(): Dot
+    {
+        return self::getInstace()->getContainer()->get('settings');
+    }
+
+    /**
+     * @return int
+     */
+    public static function version(): string
+    {
+        return uniqid();
     }
 }
