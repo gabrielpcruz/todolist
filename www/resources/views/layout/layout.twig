@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ assets('css/libs/bootstrap-5.3.2.min.css') }}?v={{ version() }}">
     <link rel="stylesheet" href="{{ assets('css/style.css') }}?v={{ version() }}">
 </head>
-<body>
+<body class="overflow-x-hidden">
 
 <nav class="navbar fixed-top">
     <div class="container-fluid">
@@ -17,12 +17,13 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid overflow-y-hidden overflow-x-scroll">
     {% block content %}{% endblock content %}
 </div>
 
 {% block scripts %}
     <script type="application/javascript" src="{{ assets('js/libs/jquery-3.7.1.min.js') }}?v={{ version() }}"></script>
+    <script type="application/javascript" src="{{ assets('js/libs/draganddropmobile.js') }}?v={{ version() }}"></script>
     <script type="application/javascript" src="{{ assets('js/script.js') }}?v={{ version() }}"></script>
 
 {% endblock scripts %}
