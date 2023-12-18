@@ -2,15 +2,25 @@ body {
     background-color: #525a65;
 }
 
+body, .canvas {
+    background-color: #525a65;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 .navbar {
     background-color: #33383f;
 }
 
 #kanban {
+    height: fit-content;
+    width: fit-content;
     margin-top: 70px;
-    background-color: #525a65;
-    padding-left: 20px;
+    background-color: red;
+    margin-right: 20px;
     color: #b6c2cf;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 
@@ -24,6 +34,8 @@ body {
     width: 300px;
     background-color: #101204;
     margin-right: 20px;
+    max-height: 85vh;
+    overflow-y: scroll;
 }
 
 .footer-board {
@@ -32,7 +44,7 @@ body {
 }
 
 .card {
-    min-height: 40px;
+    min-height: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
     background-color: #323940;
@@ -40,20 +52,24 @@ body {
     cursor: move;
 }
 
-.card-fake {
-    background-color: #101204;
-
+.board:nth-last-child(0) {
+    margin-right: 100px;
 }
 
-
 .dropzone {
-    min-height: 10px;
+    min-height: 1px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
+.dropzone-dragging {
+    min-height: 40px;
+    transition: 1s;
+
+}
+
 .highlight {
-    background-color: rgba(108, 97, 255, 0.03);
+    background-color: rgba(50, 57, 64, 0.5);
 }
 
 .card, .dropzone {
@@ -62,5 +78,5 @@ body {
 
 .is-dragging {
     cursor: move;
-    opacity: 0.3;
+    opacity: 0.5;
 }

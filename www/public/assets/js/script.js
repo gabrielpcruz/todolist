@@ -1,28 +1,31 @@
-const columns = document.querySelectorAll(".dropzone");
+// const dropzones = document.querySelectorAll(".dropzone");
+
+const cards = document.querySelectorAll('.card')
+const dropzones = document.querySelectorAll('.dropzone');
 
 document.addEventListener("dragstart", (e) => {
-    e.target.classList.add("dragging");
+    e.target.classList.add("is-dragging");
 });
 
 document.addEventListener("dragend", (e) => {
-    e.target.classList.remove("dragging");
+    e.target.classList.remove("is-dragging");
 });
 
-columns.forEach((item) => {
-    item.addEventListener("dragover", (e) => {
-        const dragging = document.querySelector(".dragging");
-        const applyAfter = getNewPosition(item, e.clientY);
+// dropzones.forEach((dropzone) => {
+//     dropzone.addEventListener("dragover", (e) => {
+//         const dragging = document.querySelector(".is-dragging");
+//         const applyAfter = getNewPosition(dropzone, e.clientY);
+//
+//         if (applyAfter) {
+//             applyAfter.insertAdjacentElement("afterend", dragging);
+//         } else {
+//             dropzone.prepend(dragging);
+//         }
+//     });
+// });
 
-        if (applyAfter) {
-            applyAfter.insertAdjacentElement("afterend", dragging);
-        } else {
-            item.prepend(dragging);
-        }
-    });
-});
-
-function getNewPosition(column, posY) {
-    const cards = column.querySelectorAll(".card:not(.dragging)");
+function getNewPosition(dropzone, posY) {
+    const cards = dropzone.querySelectorAll(".card:not(.is-dragging)");
     let result;
 
     for (let refer_card of cards) {
@@ -33,4 +36,60 @@ function getNewPosition(column, posY) {
     }
 
     return result;
+}
+
+// CARDS
+
+cards.forEach(card => {
+    card.addEventListener('dragstart', dragstart)
+    card.addEventListener('drag', drag)
+    card.addEventListener('dragend', dragend)
+})
+
+
+function dragstart(event) {
+    dropzones.forEach( dropzone => dropzone.classList.add('highlight'))
+    dropzones.forEach( dropzone => dropzone.classList.add('dropzone-dragging'))
+}
+
+function drag(event) {
+}
+
+function dragend(event) {
+    dropzones.forEach( dropzone => dropzone.classList.remove('highlight'))
+    dropzones.forEach( dropzone => dropzone.classList.remove('dropzone-dragging'))
+}
+
+
+// DROPZONES
+
+dropzones.forEach( dropzone => {
+    dropzone.addEventListener('dragenter', dragenter)
+    dropzone.addEventListener('dragover', dragover)
+    dropzone.addEventListener('dragleave', dragleave)
+    dropzone.addEventListener('drop', drop)
+})
+
+function dragenter(event) {
+
+}
+
+function dragover(event) {
+    const dragging = document.querySelector(".is-dragging");
+    const applyAfter = getNewPosition(this, event.clientY);
+
+    if (applyAfter) {
+        applyAfter.insertAdjacentElement("afterend", dragging);
+    } else {
+        this.prepend(dragging);
+    }
+}
+
+function dragleave(event) {
+
+
+}
+
+function drop(event) {
+
 }
