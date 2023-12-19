@@ -23,9 +23,11 @@
 
 {% block scripts %}
     <script type="application/javascript" src="{{ assets('js/libs/jquery-3.7.1.min.js') }}?v={{ version() }}"></script>
+    <script type="application/javascript" src="{{ assets('js/libs/bootstap-5.3.2.min.js') }}?v={{ version() }}"></script>
     <script type="application/javascript" src="{{ assets('js/libs/draganddropmobile.js') }}?v={{ version() }}"></script>
     <script type="application/javascript" src="{{ assets('js/script.js') }}?v={{ version() }}"></script>
-
+    <script type="application/javascript" src="{{ assets('js/Card.js') }}?v={{ version() }}"></script>
+    <script type="application/javascript" src="{{ assets('js/Board.js') }}?v={{ version() }}"></script>
 {% endblock scripts %}
 </body>
 </html>

@@ -80,3 +80,12 @@ body, .canvas {
     cursor: move;
     opacity: 0.5;
 }
+
+/*
+
+*/
+
+textarea {
+    width: 100%;
+    resize: none;
+}
