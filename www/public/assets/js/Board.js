@@ -22,6 +22,10 @@ let Board = (function () {
             textarea.val(value);
         }
 
+        textarea[0].addEventListener('keyup', resizeTextAreaByContent);
+        textarea[0].addEventListener('input', resizeTextAreaByContent);
+        textarea[0].addEventListener('paste', resizeTextAreaByContent);
+
         form.append(textarea);
 
         form[0].addEventListener('focusout', function (event) {
@@ -30,6 +34,10 @@ let Board = (function () {
             let text = $(target).val();
 
             let card = Card.create(text);
+
+            Kanban.addEventsToCard(card[0]);
+
+            card[0].addEventListener('dblclick', eventDoubleClick);
 
             let board = getParentBoardByTextAreaNewCard(target);
             board.find('.dropzone').append(card);
@@ -56,24 +64,41 @@ let Board = (function () {
         });
     };
 
+    let eventDoubleClick = function (event) {
+        let { target } = event;
+
+        let text = $(target).text();
+
+        let form = createFormNewCard(text);
+        let board = getParentBoardByAddCardButton(target);
+
+        board.find('.dropzone').append(form);
+
+        setTimeout(() => {
+            form.find('textarea').trigger('focus');
+        },100);
+
+        this.remove();
+    }
+
+    let resizeTextAreaByContent = function (event) {
+        let { target } = event;
+
+        let lineLength = 27;
+
+        let lines = ($(target).val().length / lineLength);
+        let rest = ($(target).val().length % lineLength);
+
+        // min-height + lines x line-height + padding + border
+        let newHeight = 40 + lines * 20 + 12 + 2;
+
+        if (rest >= 20) {
+            this.style.height = newHeight + "px"
+        }
+    };
+
     let handleEditCard = function () {
-        $(".card").on('dblclick', function (event) {
-            let { target } = event;
-
-            let text = $(target).text();
-
-            let form = createFormNewCard(text);
-            let board = getParentBoardByAddCardButton(target);
-
-            board.find('.dropzone').append(form);
-
-            this.remove();
-
-
-
-
-            console.log(target)
-        });
+        $(".card").on('dblclick', eventDoubleClick);
     };
 
     return {
