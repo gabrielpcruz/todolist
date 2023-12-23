@@ -18,16 +18,22 @@ let Kanban = (function () {
     };
 
     let dragstart = function (event) {
-        $.each(listAllDropzones(),  (index, dropzone)  => $(dropzone).addClass('highlight'));
-        $.each(listAllDropzones(),  (index, dropzone)  => $(dropzone).addClass('dropzone-dragging'));
+        $(event.target).addClass('is-dragging');
+
+        $.each(listAllDropzones(), function (index, dropzone) {
+            $(dropzone).addClass('highlight dropzone-dragging')
+        });
     }
 
     let drag = function (event) {
     }
 
     let dragend = function (event) {
-        $.each(listAllDropzones(),  (index, dropzone)  => $(dropzone).removeClass('highlight'));
-        $.each(listAllDropzones(),  (index, dropzone)  => $(dropzone).removeClass('dropzone-dragging'));
+        $(event.target).removeClass('is-dragging');
+
+        $.each(listAllDropzones(), function (index, dropzone) {
+            $(dropzone).removeClass('highlight dropzone-dragging')
+        });
     }
 
     let addEventsToCard = function (card) {
@@ -37,20 +43,24 @@ let Kanban = (function () {
     };
 
     let initCards = function () {
-        $.each(listAllCards(),  (index, card)  => addEventsToCard(card));
+        $.each(listAllCards(), function (index, card) {
+            addEventsToCard(card)
+        });
     };
 
     let getNewPosition = function (dropzone, posY) {
         let result;
 
-        const cards = dropzone.querySelectorAll(".card:not(.is-dragging)");
+        const cards = $(dropzone).find(".card:not(.is-dragging)");
 
-        for (let refer_card of cards) {
-            const box = refer_card.getBoundingClientRect();
+        $.each(cards, function (index, card) {
+            const box = card.getBoundingClientRect();
             const boxCenterY = box.y + box.height / 2;
 
-            if (posY >= boxCenterY) result = refer_card;
-        }
+            if (posY >= boxCenterY) {
+                result = card
+            }
+        });
 
         return result;
     };
@@ -70,7 +80,7 @@ let Kanban = (function () {
         }
     };
 
-    let dragleave = function(event) {
+    let dragleave = function (event) {
 
     };
 
@@ -79,7 +89,7 @@ let Kanban = (function () {
     };
 
     let initDropzones = function () {
-        $.each(listAllDropzones(),  function (index, dropzone) {
+        $.each(listAllDropzones(), function (index, dropzone) {
             $(dropzone).on('dragenter', dragenter)
             $(dropzone).on('dragover', dragover)
             $(dropzone).on('dragleave', dragleave)
@@ -91,16 +101,8 @@ let Kanban = (function () {
         init: function () {
             initCards();
             initDropzones();
-
-            document.addEventListener("dragstart", (e) => {
-                e.target.classList.add("is-dragging");
-            });
-
-            document.addEventListener("dragend", (e) => {
-                e.target.classList.remove("is-dragging");
-            });
         },
-        addEventsToCard:addEventsToCard
+        addEventsToCard: addEventsToCard
     }
 })();
 
