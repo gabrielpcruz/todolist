@@ -48,37 +48,19 @@ let Kanban = (function () {
         });
     };
 
-    let getNewPosition = function (dropzone, posY) {
-        let result;
-
-        const cards = $(dropzone).find(".card:not(.is-dragging)");
-
-        $.each(cards, function (index, card) {
-            const box = card.getBoundingClientRect();
-            const boxCenterY = box.y + box.height / 2;
-
-            if (posY >= boxCenterY) {
-                result = card
-            }
-        });
-
-        return result;
-    };
-
     let dragenter = function (event) {
 
     };
 
     let dragover = function (event) {
-        const dragging = document.querySelector(".is-dragging");
-        const applyAfter = getNewPosition(this, event.clientY);
+        let board = $(this).parent();
+        let position = event.clientY;
+        let cardMoving = $(".is-dragging")[0];
 
-        if (applyAfter) {
-            applyAfter.insertAdjacentElement("afterend", dragging);
-        } else {
-            this.prepend(dragging);
-        }
+        Board.insertCardIntoBoadPosition(board, cardMoving, position);
     };
+
+
 
     let dragleave = function (event) {
 
@@ -102,7 +84,7 @@ let Kanban = (function () {
             initCards();
             initDropzones();
         },
-        addEventsToCard: addEventsToCard
+        addEventsToCard,
     }
 })();
 

@@ -27,6 +27,41 @@ let Board = (function () {
         $(".card").on('dblclick', Card.eventDoubleClick);
     };
 
+    let getNewPosition = function (board, posY) {
+        let result;
+
+        const cards = $(board).find(".card:not(.is-dragging)");
+
+        $.each(cards, function (index, card) {
+            const box = card.getBoundingClientRect();
+            const boxCenterY = box.y + box.height / 2;
+
+            if (posY >= boxCenterY) {
+                result = card
+            }
+        });
+
+        return result;
+    };
+
+    let insertCardIntoBoadPosition = function (board, cardMoving, position) {
+        let dropzone = $(board).find('.dropzone');
+
+        let card = getNewPosition(board, position);
+
+        console.log("card: " + card);
+
+        if (card) {
+            console.log("after: " + card);
+
+            card.insertAdjacentElement("afterend", cardMoving);
+        } else {
+            console.log("before: " + card);
+
+            dropzone.prepend(cardMoving);
+        }
+    }
+
     return {
         init : function () {
             handleNewCard();
@@ -34,6 +69,7 @@ let Board = (function () {
         },
         getParentBoardByTextAreaNewCard,
         getParentBoardByAddCardButton,
+        insertCardIntoBoadPosition,
     }
 })();
 
