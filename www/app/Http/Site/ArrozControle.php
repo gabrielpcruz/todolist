@@ -8,7 +8,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class ArrozControle extends SiteController
+class ArrozControle extends AbstractSiteController
 {
     /**
      * @throws SyntaxError

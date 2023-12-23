@@ -18,7 +18,9 @@ let Kanban = (function () {
     };
 
     let dragstart = function (event) {
-        $(event.target).addClass('is-dragging');
+        if (event) {
+            $(event.target).addClass('is-dragging');
+        }
 
         $.each(listAllDropzones(), function (index, dropzone) {
             $(dropzone).addClass('highlight dropzone-dragging')
@@ -29,7 +31,9 @@ let Kanban = (function () {
     }
 
     let dragend = function (event) {
-        $(event.target).removeClass('is-dragging');
+        if (event) {
+            $(event.target).removeClass('is-dragging');
+        }
 
         $.each(listAllDropzones(), function (index, dropzone) {
             $(dropzone).removeClass('highlight dropzone-dragging')

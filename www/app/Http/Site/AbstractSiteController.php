@@ -10,10 +10,16 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-abstract class SiteController extends Controller
+abstract class AbstractSiteController extends Controller
 {
+    /**
+     * @var Twig
+     */
     protected Twig $twig;
 
+    /**
+     * @param Twig $twig
+     */
     public function __construct(Twig $twig)
     {
         $this->twig = $twig;

@@ -23,16 +23,25 @@ let Card = (function () {
 
         let card = Card.create(text);
         card.attr('id', $(target).data('id'))
-        Kanban.addEventsToCard(card[0]);
+        card.data('position', $(target).data('position'))
+        Kanban.addEventsToCard(card);
 
         card[0].addEventListener('dblclick', eventDoubleClick);
 
         let board = Board.getParentBoardByTextAreaNewCard(target);
 
-        Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+         HandleCardAjax.insert(card)
+             .fail((response) => {
+            console.log("error:" + response)
+        })
+            .done((response) => {
+                console.log(response)
+                Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+            })
+             .always(() => {
+                this.remove();
+             });
 
-
-        this.remove();
     }
 
     let eventDoubleClick = function (event) {
