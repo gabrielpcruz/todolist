@@ -3,7 +3,7 @@ let Kanban = (function () {
 
     let listAllCards = function () {
         if (cards.length === 0) {
-            cards = document.querySelectorAll('.card');
+            cards = $('.card');
         }
 
         return cards;
@@ -31,13 +31,13 @@ let Kanban = (function () {
     }
 
     let addEventsToCard = function (card) {
-        card.addEventListener('dragstart', dragstart);
-        card.addEventListener('drag', drag);
-        card.addEventListener('dragend', dragend);
+        $(card).on('dragstart', dragstart);
+         $(card).on('drag', drag);
+         $(card).on('dragend', dragend);
     };
 
     let initCards = function () {
-        listAllCards().forEach(card => addEventsToCard(card));
+        $.each(listAllCards(),  (index, card)  => addEventsToCard(card));
     };
 
     let getNewPosition = function (dropzone, posY) {

@@ -5,8 +5,8 @@ body {
 
 body, .canvas {
     background-color: #525a65;
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .navbar {
@@ -14,7 +14,7 @@ body, .canvas {
 }
 
 #kanban {
-    height: fit-content;
+    min-height: 90vh;
     width: fit-content;
     margin-top: 70px;
     margin-right: 20px;
@@ -26,7 +26,6 @@ body, .canvas {
 
 .head-board {
     min-height: 40px;
-    /*margin-bottom: 5px;*/
 }
 
 .board {
@@ -78,6 +77,10 @@ body, .canvas {
 .is-dragging {
     cursor: move;
     opacity: 0.5;
+}
+
+.card-editing {
+    cursor: text;
 }
 
 /*
