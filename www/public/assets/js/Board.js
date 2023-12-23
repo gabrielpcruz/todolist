@@ -15,6 +15,10 @@ let Board = (function () {
 
             let form = Card.createFormNewCard();
 
+            $(form).find('textarea').attr('data-position', $(target).offset().top);
+            $(form).find('textarea').attr('data-id', $(target).attr('id'));
+
+
             board.find('.dropzone').append(form);
 
             setTimeout(() => {
@@ -27,10 +31,10 @@ let Board = (function () {
         $(".card").on('dblclick', Card.eventDoubleClick);
     };
 
-    let getNewPosition = function (board, posY) {
+    let getNewPosition = function (board, cardMoving, posY) {
         let result;
 
-        const cards = $(board).find(".card:not(.is-dragging)");
+        const cards = $(board).find(`.card:not(${$(cardMoving).attr('id')})`);
 
         $.each(cards, function (index, card) {
             const box = card.getBoundingClientRect();
@@ -47,17 +51,11 @@ let Board = (function () {
     let insertCardIntoBoadPosition = function (board, cardMoving, position) {
         let dropzone = $(board).find('.dropzone');
 
-        let card = getNewPosition(board, position);
-
-        console.log("card: " + card);
+        let card = getNewPosition(board, cardMoving, position);
 
         if (card) {
-            console.log("after: " + card);
-
             card.insertAdjacentElement("afterend", cardMoving);
         } else {
-            console.log("before: " + card);
-
             dropzone.prepend(cardMoving);
         }
     }

@@ -22,13 +22,15 @@ let Card = (function () {
         let text = $(target).val();
 
         let card = Card.create(text);
-
+        card.attr('id', $(target).data('id'))
         Kanban.addEventsToCard(card[0]);
 
         card[0].addEventListener('dblclick', eventDoubleClick);
 
         let board = Board.getParentBoardByTextAreaNewCard(target);
-        board.find('.dropzone').append(card);
+
+        Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+
 
         this.remove();
     }
@@ -41,7 +43,10 @@ let Card = (function () {
         let form = createFormNewCard(text);
         let board = Board.getParentBoardByAddCardButton(target);
 
-        board.find('.dropzone').append(form);
+        $(form).find('textarea').attr('data-position', $(target).offset().top);
+        $(form).find('textarea').attr('data-id', $(target).attr('id'));
+
+        Board.insertCardIntoBoadPosition(board[0], form[0], $(target).offset().top);
 
         setTimeout(() => {
             form.find('textarea').trigger('focus');
