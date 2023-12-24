@@ -7,30 +7,6 @@ let Board = (function () {
         return $(textAreaNewCard).parent().parent().parent();
     };
 
-    let handleNewCard = function () {
-        $(".add-card").on('click', function (event) {
-            let { target } = event;
-
-            let board = getParentBoardByAddCardButton(target);
-
-            let form = Card.createFormNewCard();
-
-            $(form).find('textarea').attr('data-position', $(target).offset().top);
-            $(form).find('textarea').attr('data-id', $(target).attr('id'));
-
-
-            board.find('.dropzone').append(form);
-
-            setTimeout(() => {
-                form.find('textarea').trigger('focus');
-            },100);
-        });
-    };
-
-    let handleEditCard = function () {
-        $(".card").on('dblclick', Card.eventDoubleClick);
-    };
-
     let getNewPosition = function (board, cardMoving, posY) {
         let result;
 
@@ -60,17 +36,97 @@ let Board = (function () {
         }
     }
 
+    /**
+     * TODO refatorar, isso aqui já me da uma boa parte das partes complicadas
+     * @param board
+     * @param cards
+     * @returns {*|jQuery|HTMLElement|JQuery<HTMLElement>}
+     */
+    let createBoard = function (board, cards = []) {
+        let divBoard = $('<div>');
+
+        let boardId = `board-${board.id}`;
+
+        divBoard.attr('id', boardId);
+        divBoard.addClass('board rounded-3 p-2');
+
+        let divHeadBoard = $('<div>');
+        let divHeadBoardTitle = $('<p>');
+
+        divHeadBoardTitle.addClass('fw-semibold');
+        divHeadBoardTitle.html(`${board.name}`);
+
+        divHeadBoard.addClass('head-board rounded-1 d-flex justify-content-start');
+        divHeadBoard.append(divHeadBoardTitle);
+
+        let divBoardBody = $('<div>');
+        divBoardBody.addClass('dropzone rounded-3 d-flex flex-column');
+
+        let divBoardFooter = $('<div>');
+        let divBoardFooterButton = $('<button>');
+
+        divBoardFooterButton.addClass('add-card btn btn-secondary');
+        divBoardFooterButton.html('Adicionar um cartão');
+
+        divBoardFooter.addClass('footer-board rounded-1 d-grid gap-2');
+        divBoardFooter.append(divBoardFooterButton);
+
+        divBoard.append(divHeadBoard);
+        divBoard.append(divBoardBody);
+        divBoard.append(divBoardFooter);
+
+        if (cards.length) {
+            cards.sort((a,b) => a.position - b.position);
+
+            $.each(cards, function (index, card) {
+                let divCard = $('<div>');
+
+                divCard.attr('id', card.id);
+                divCard.attr('draggable', 'true');
+                divCard.addClass('card p-2');
+                divCard.html(card.description);
+
+                Kanban.addEventsToCard(divCard);
+
+                console.log(card)
+
+                Board.insertCardIntoBoadPosition(divBoard, divCard[0], card.position);
+            });
+        }
+
+        return divBoard;
+    }
+
     return {
-        init : function () {
-            handleNewCard();
-            handleEditCard();
-        },
         getParentBoardByTextAreaNewCard,
         getParentBoardByAddCardButton,
         insertCardIntoBoadPosition,
+        createBoard
     }
 })();
 
 jQuery(function () {
-    Board.init()
+
+    let boardData = {id: '5', name: 'TODO'};
+    let cards = [
+        {
+            id: 1,
+            description: 'Card 2 Board 1 | asd sad dsaf dsaf sdaf sdfsdaf sd f',
+            position: 100
+        },
+        {
+            id: 2,
+            description: 'Card 2 | este card é legal',
+            position: 200
+        },
+        {
+            id: 3,
+            description: 'Card 3 | este card é legal',
+            position: 300
+        },
+    ];
+
+    let board = Board.createBoard(boardData, cards);
+
+    $('#kanban').append(board);
 });

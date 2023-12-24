@@ -1,9 +1,29 @@
 let Card = (function () {
 
-    let modal =  new bootstrap.Modal('#new-card');
+    let eventNewCard = function (event) {
+        let { target } = event;
+
+        let board = Board.getParentBoardByAddCardButton(target);
+
+        let form = Card.createFormNewCard();
+
+        $(form).find('textarea').attr('data-position', $(target).offset().top);
+        $(form).find('textarea').attr('data-id', $(target).attr('id'));
+
+
+        board.find('.dropzone').append(form);
+
+        setTimeout(() => {
+            form.find('textarea').trigger('focus');
+        },100);
+    };
 
     let handleNewCard = function () {
-        modal.show();
+        $(".add-card").on('click', Card.eventNewCard);
+    }
+
+    let handleEditCard = function () {
+        $(".card").on('dblclick', Card.eventEditCard);
     }
 
     let create = function (text) {
@@ -26,7 +46,7 @@ let Card = (function () {
         card.data('position', $(target).data('position'))
         Kanban.addEventsToCard(card);
 
-        card[0].addEventListener('dblclick', eventDoubleClick);
+        card[0].addEventListener('dblclick', Card.eventEditCard);
 
         let board = Board.getParentBoardByTextAreaNewCard(target);
 
@@ -44,7 +64,7 @@ let Card = (function () {
 
     }
 
-    let eventDoubleClick = function (event) {
+    let eventEditCard = function (event) {
         let { target } = event;
 
         let text = $(target).text();
@@ -108,9 +128,11 @@ let Card = (function () {
 
     return {
         handleNewCard,
+        handleEditCard,
         create,
         replaceTextAreaForCard,
-        eventDoubleClick,
+        eventEditCard,
+        eventNewCard,
         createFormNewCard,
     }
 })();
