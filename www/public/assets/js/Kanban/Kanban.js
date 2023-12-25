@@ -83,10 +83,34 @@ let Kanban = (function () {
         });
     };
 
+
+
+
+
+
+
+
+
+
+
+    let fillKanban = function () {
+        Ajax.get('/v1/api/board').done((response) => {
+            let boards = JSON.parse(response);
+
+            $.each(boards, function (index, board) {
+
+                $('#kanban').append(
+                    Board.createBoard(board, board.cards)
+                );
+            });
+        })
+    };
+
     return {
         init: function () {
             initCards();
             initDropzones();
+            fillKanban();
         },
         addEventsToCard,
     }

@@ -2,8 +2,6 @@ let Ajax = (function () {
 
     let post = function (url, parameters = {}) {
 
-        console.log('a')
-
         return $.ajax({
             method: 'POST',
             url: url,
@@ -12,7 +10,10 @@ let Ajax = (function () {
     };
 
     let get = function (url, parameters = {}) {
-
+        return $.ajax({
+            method: 'GET',
+            url: url
+        });
     };
 
     return {

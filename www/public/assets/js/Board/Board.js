@@ -88,8 +88,6 @@ let Board = (function () {
 
                 Kanban.addEventsToCard(divCard);
 
-                console.log(card)
-
                 Board.insertCardIntoBoadPosition(divBoard, divCard[0], card.position);
             });
         }
@@ -107,26 +105,4 @@ let Board = (function () {
 
 jQuery(function () {
 
-    let boardData = {id: '5', name: 'TODO'};
-    let cards = [
-        {
-            id: 1,
-            description: 'Card 2 Board 1 | asd sad dsaf dsaf sdaf sdfsdaf sd f',
-            position: 100
-        },
-        {
-            id: 2,
-            description: 'Card 2 | este card é legal',
-            position: 200
-        },
-        {
-            id: 3,
-            description: 'Card 3 | este card é legal',
-            position: 300
-        },
-    ];
-
-    let board = Board.createBoard(boardData, cards);
-
-    $('#kanban').append(board);
 });

@@ -50,6 +50,8 @@ let Card = (function () {
 
         let board = Board.getParentBoardByTextAreaNewCard(target);
 
+        card.data('board_id', $(board).attr('id'));
+
          HandleCardAjax.insert(card)
              .fail((response) => {
             console.log("error:" + response)

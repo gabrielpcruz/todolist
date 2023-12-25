@@ -1,5 +1,7 @@
 CREATE DATABASE IF NOT EXISTS todolist CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
+USE todolist;
+
 CREATE TABLE IF NOT EXISTS board
 (
     id         INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -24,3 +26,8 @@ CREATE TABLE IF NOT EXISTS card
 );
 
 CREATE INDEX fk_board_id_idx ON card (board_id);
+
+INSERT INTO board (name) VALUES ('TODO'), ('DOING'), ('DONE');
+INSERT INTO card (description, position, board_id) VALUES ('Card criado no board TODO', 100, 1), ('Card criado no board DOING', 100, 2), ('Card criado no board DONE', 100, 3);
+
+

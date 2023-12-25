@@ -1,14 +1,14 @@
 let HandleCardAjax = (function () {
 
     let insert = function (card) {
-        console.log(card)
 
         let cardObject = {
             description: $(card).text(),
-            position: $(card).data('position')
+            position: $(card).data('position'),
+            board_id: $(card).data('board_id').replace('board-', ''),
         };
 
-        return Ajax.post('/v1/api/card', {card: cardObject});
+        return Ajax.post('/v1/api/card', cardObject);
     };
 
     return {

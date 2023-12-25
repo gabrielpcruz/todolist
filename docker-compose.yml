@@ -11,8 +11,8 @@ services:
       - ${DOCUMENT_ROOT-./www}:/usr/share/nginx/html
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./config/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
-    ports:
-      - ":9000"
+    expose:
+      - "9000"
   mysql:
     build:
       context: ./bin/mysql
@@ -57,7 +57,7 @@ services:
     depends_on:
       - app
     ports:
-      - "8100:80"
+      - "80:80"
     networks:
       - container_default
     volumes_from:

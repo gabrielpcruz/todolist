@@ -7,6 +7,7 @@ use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
+use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\App as SlimApp;
@@ -27,6 +28,8 @@ class App
     public static function bootstrap(): SlimApp
     {
         $app = self::getInstace();
+
+        self::setupDatabase();
 
         $app->addErrorMiddleware(true, true, true);
 
@@ -73,10 +76,34 @@ class App
     }
 
     /**
-     * @return int
+     * @return string
      */
     public static function version(): string
     {
         return uniqid();
+    }
+
+    /**
+     * @return void
+     */
+    private static function setupDatabase(): void
+    {
+        $manager = new Manager();
+
+        $connection = [
+            'driver' => 'mysql',
+            'host' => '192.168.1.12:9909',
+            'database' => 'todolist',
+            'username' => 'root',
+            'password' => 'root',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_0900_ai_ci',
+            'prefix' => '',
+        ];
+
+        $manager->addConnection($connection, 'default');
+
+        $manager->setAsGlobal();
+        $manager->bootEloquent();
     }
 }
