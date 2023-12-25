@@ -16,8 +16,18 @@ let Ajax = (function () {
         });
     };
 
+    let put = function (url, parameters = {}) {
+        return $.ajax({
+            method: 'PUT',
+            url: url,
+            data: parameters
+
+        });
+    };
+
     return {
         post: post,
         get: get,
+        put: put,
     }
 })();

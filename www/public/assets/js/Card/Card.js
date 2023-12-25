@@ -42,6 +42,7 @@ let Card = (function () {
         let text = $(target).val();
 
         let card = Card.create(text);
+
         card.attr('id', $(target).data('id'))
         card.data('position', $(target).data('position'))
         Kanban.addEventsToCard(card);

@@ -7,6 +7,10 @@ let Board = (function () {
         return $(textAreaNewCard).parent().parent().parent();
     };
 
+    let getParentBoardByCard = function (card) {
+        return $(card).parent().parent();
+    };
+
     let getNewPosition = function (board, cardMoving, posY) {
         let result;
 
@@ -61,6 +65,8 @@ let Board = (function () {
 
         let divBoardBody = $('<div>');
         divBoardBody.addClass('dropzone rounded-3 d-flex flex-column');
+        Kanban.addEventsToDropzone(divBoardBody);
+
 
         let divBoardFooter = $('<div>');
         let divBoardFooterButton = $('<button>');
@@ -84,6 +90,7 @@ let Board = (function () {
                 divCard.attr('id', card.id);
                 divCard.attr('draggable', 'true');
                 divCard.addClass('card p-2');
+                divCard.attr('data-board_id', board.id);
                 divCard.html(card.description);
 
                 Kanban.addEventsToCard(divCard);
@@ -98,6 +105,7 @@ let Board = (function () {
     return {
         getParentBoardByTextAreaNewCard,
         getParentBoardByAddCardButton,
+        getParentBoardByCard,
         insertCardIntoBoadPosition,
         createBoard
     }

@@ -11,5 +11,7 @@ let EventsDispatcher = (function () {
 })();
 
 jQuery(function () {
-    EventsDispatcher.dispatch();
+    setTimeout(() => {
+        EventsDispatcher.dispatch();
+    }, 1000)
 });

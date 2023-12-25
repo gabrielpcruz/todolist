@@ -31,13 +31,31 @@ let Kanban = (function () {
     }
 
     let dragend = function (event) {
-        if (event) {
-            $(event.target).removeClass('is-dragging');
-        }
-
         $.each(listAllDropzones(), function (index, dropzone) {
             $(dropzone).removeClass('highlight dropzone-dragging')
         });
+        let { target } = event;
+
+
+        if (event) {
+
+            $(target).removeClass('is-dragging');
+
+
+            // Aqui posso mandar para o banco de dados, onde o cartão foi solto por último e salvar
+
+        }
+
+
+        let board = Board.getParentBoardByCard($(event.target));
+        event.currentTarget.dataset.board_id = board.attr('id');
+
+
+
+        HandleCardAjax.updateBoard($(event.target));
+
+
+
     }
 
     let addEventsToCard = function (card) {
@@ -71,15 +89,18 @@ let Kanban = (function () {
     };
 
     let drop = function (event) {
+    };
 
+    let addEventsToDropzone = function (dropzone) {
+        $(dropzone).on('dragenter', dragenter);
+        $(dropzone).on('dragover', dragover);
+        $(dropzone).on('dragleave', dragleave);
+        $(dropzone).on('drop', drop);
     };
 
     let initDropzones = function () {
         $.each(listAllDropzones(), function (index, dropzone) {
-            $(dropzone).on('dragenter', dragenter)
-            $(dropzone).on('dragover', dragover)
-            $(dropzone).on('dragleave', dragleave)
-            $(dropzone).on('drop', drop)
+            addEventsToDropzone(dropzone);
         });
     };
 
@@ -108,11 +129,14 @@ let Kanban = (function () {
 
     return {
         init: function () {
-            initCards();
-            initDropzones();
             fillKanban();
+            setTimeout(() => {
+                initCards();
+                initDropzones();
+            }, 900);
         },
         addEventsToCard,
+        addEventsToDropzone,
     }
 })();
 
