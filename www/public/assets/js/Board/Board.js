@@ -91,6 +91,8 @@ let Board = (function () {
                 divCard.attr('draggable', 'true');
                 divCard.addClass('card p-2');
                 divCard.attr('data-board_id', board.id);
+
+                console.log(board.id)
                 divCard.html(card.description);
 
                 Kanban.addEventsToCard(divCard);

@@ -9,9 +9,3 @@ let EventsDispatcher = (function () {
         dispatch:dispatch
     }
 })();
-
-jQuery(function () {
-    setTimeout(() => {
-        EventsDispatcher.dispatch();
-    }, 1000)
-});

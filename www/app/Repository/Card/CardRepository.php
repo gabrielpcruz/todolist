@@ -7,6 +7,11 @@ use App\Repository\Repository;
 
 class CardRepository extends Repository
 {
+    /**
+     * @var string
+     */
+    protected string $entityClass = CardEntity::class;
+
     public function moveCard(CardEntity $cardEntity)
     {
 

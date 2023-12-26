@@ -30,7 +30,7 @@ abstract class Repository
     protected function getEntity(): Entity
     {
         if (!class_exists($this->entityClass)) {
-            throw new \DomainException('sdsad');
+            throw new \DomainException('Entity class not Defined!');
         }
 
         return new $this->entityClass();

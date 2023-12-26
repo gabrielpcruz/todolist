@@ -48,12 +48,20 @@ let Kanban = (function () {
 
 
         let board = Board.getParentBoardByCard($(event.target));
-        event.currentTarget.dataset.board_id = board.attr('id');
+        event.currentTarget.dataset.board_id = board.attr('id').replace('board-', '');
 
 
 
-        HandleCardAjax.updateBoard($(event.target));
+        HandleCardAjax.update($(event.target));
 
+        let othersCards = $(board).find(`.card:not(${$(event.target).attr('id')})`);
+
+        console.log(othersCards)
+
+        for (const [index, card] of Object.entries(othersCards)) {
+            console.log($(card))
+            HandleCardAjax.update($(card));
+        }
 
 
     }
@@ -62,7 +70,14 @@ let Kanban = (function () {
         $(card).on('dragstart', dragstart);
         $(card).on('drag', drag);
         $(card).on('dragend', dragend);
+        $(card).on('change', change);
+
     };
+
+    let change = function (event) {
+        console.log(event);
+        console.log("Mudei de posição");
+    }
 
     let initCards = function () {
         $.each(listAllCards(), function (index, card) {
@@ -115,7 +130,8 @@ let Kanban = (function () {
 
 
     let fillKanban = function () {
-        Ajax.get('/v1/api/board').done((response) => {
+        Ajax.get('/v1/api/board')
+            .done((response) => {
             let boards = JSON.parse(response);
 
             $.each(boards, function (index, board) {
@@ -133,6 +149,7 @@ let Kanban = (function () {
             setTimeout(() => {
                 initCards();
                 initDropzones();
+                EventsDispatcher.dispatch();
             }, 900);
         },
         addEventsToCard,

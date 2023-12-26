@@ -21,7 +21,6 @@ let Ajax = (function () {
             method: 'PUT',
             url: url,
             data: parameters
-
         });
     };
 

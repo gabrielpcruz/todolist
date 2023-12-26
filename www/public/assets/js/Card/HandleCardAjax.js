@@ -5,22 +5,29 @@ let HandleCardAjax = (function () {
         let cardObject = {
             description: $(card).text(),
             position: $(card).data('position'),
-            board_id: $(card).data('board_id').replace('board-', ''),
+            board_id: $(card).data('board_id'),
         };
 
         return Ajax.post('/v1/api/card', cardObject);
     };
 
-    let updateBoard = function (card) {
+    let update = function (card) {
 
         let cardId = $(card).attr('id');
-        let boardId = $(card).data('board_id').replace('board-', '');
 
-        return Ajax.put(`/v1/api/card/${cardId}/board/${boardId}`);
+        let cardObject = {
+            id: cardId,
+            description: $(card).text(),
+            position: $(card).position().top,
+            board_id: $(card).data('board_id'),
+        };
+
+
+        return Ajax.put(`/v1/api/card/${cardId}`, cardObject);
     };
 
     return {
         insert:insert,
-        updateBoard:updateBoard,
+        update:update,
     }
 })();

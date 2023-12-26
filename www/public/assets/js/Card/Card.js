@@ -7,7 +7,7 @@ let Card = (function () {
 
         let form = Card.createFormNewCard();
 
-        $(form).find('textarea').attr('data-position', $(target).offset().top);
+        $(form).find('textarea').attr('data-position', $(target).position().top);
         $(form).find('textarea').attr('data-id', $(target).attr('id'));
 
 
@@ -75,10 +75,10 @@ let Card = (function () {
         let form = createFormNewCard(text);
         let board = Board.getParentBoardByAddCardButton(target);
 
-        $(form).find('textarea').attr('data-position', $(target).offset().top);
+        $(form).find('textarea').attr('data-position', $(target).position().top);
         $(form).find('textarea').attr('data-id', $(target).attr('id'));
 
-        Board.insertCardIntoBoadPosition(board[0], form[0], $(target).offset().top);
+        Board.insertCardIntoBoadPosition(board[0], form[0], $(target).position().top);
 
         setTimeout(() => {
             form.find('textarea').trigger('focus');

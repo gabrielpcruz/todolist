@@ -8,7 +8,7 @@ use Slim\App;
 return function (App $app) {
 
     $app->post('/v1/api/card', [Card::class, 'add'] );
-    $app->put('/v1/api/card/{id}/board/{board_id}', [Card::class, 'update'] );
+    $app->put('/v1/api/card/{id}', [Card::class, 'update'] );
     $app->get('/v1/api/board', [Board::class, 'all'] );
 
 };

@@ -36,8 +36,13 @@ class Card extends AbstractApiController
      */
     public function update(Request $request, Response $response, array $args): Response
     {
-        $cardEntity = new CardEntity();
-        $status = $cardEntity->updateOrFail($args) ? 200 : 500;
+        $parameters = $this->getParameters();
+
+        $repository = new CardRepository();
+        $card = $repository->findOneBy(['id' => $args['id']]);
+        $card->board_id = $parameters->board_id;
+        $card->position = $parameters->position;
+        $status = $card->updateOrFail() ? 200 : 500;
 
         return $this->responseJson($response, [], $status);
     }
