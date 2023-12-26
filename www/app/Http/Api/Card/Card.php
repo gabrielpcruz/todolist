@@ -24,7 +24,9 @@ class Card extends AbstractApiController
         $card->fill($request->getParsedBody());
         $status = $card->saveOrFail() ? 200 : 500;
 
-        return $this->responseJson($response, [], $status);
+        return $this->responseJson($response, [
+            'cardId' => $card->getId()
+        ], $status);
     }
 
     /**
@@ -42,6 +44,7 @@ class Card extends AbstractApiController
         $card = $repository->findOneBy(['id' => $args['id']]);
         $card->board_id = $parameters->board_id;
         $card->position = $parameters->position;
+        $card->description = $parameters->description;
         $status = $card->updateOrFail() ? 200 : 500;
 
         return $this->responseJson($response, [], $status);

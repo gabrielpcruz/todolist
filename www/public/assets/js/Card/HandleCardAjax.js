@@ -18,7 +18,7 @@ let HandleCardAjax = (function () {
         let cardObject = {
             id: cardId,
             description: $(card).text(),
-            position: $(card).position().top,
+            position: $(card).data('position'),
             board_id: $(card).data('board_id'),
         };
 

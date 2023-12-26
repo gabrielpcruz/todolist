@@ -51,20 +51,40 @@ let Card = (function () {
 
         let board = Board.getParentBoardByTextAreaNewCard(target);
 
-        card.data('board_id', $(board).attr('id'));
+        card.data('board_id', $(board).attr('id').replace('board-', ''));
 
-         HandleCardAjax.insert(card)
-             .fail((response) => {
-            console.log("error:" + response)
-        })
-            .done((response) => {
-                console.log(response)
-                Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
-            })
-             .always(() => {
-                this.remove();
-             });
+        let cardId = card.attr('id');
 
+        if (cardId !== undefined) {
+            console.log(card)
+            console.log($(card).position().top)
+            console.log($(target).data('position'))
+            HandleCardAjax.update(card)
+                .fail((response) => {
+                    console.log("error:" + response)
+                })
+                .done((response) => {
+                    console.log(response)
+                    Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+                })
+                .always(() => {
+                    this.remove();
+                });
+        } else {
+            HandleCardAjax.insert(card)
+                .fail((response) => {
+                    console.log("error:" + response)
+                })
+                .done((response) => {
+                    console.log(card)
+                    let cardResponse = JSON.parse(response);
+                    $(card).attr('id', cardResponse.cardId)
+                    Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+                })
+                .always(() => {
+                    this.remove();
+                });
+        }
     }
 
     let eventEditCard = function (event) {
@@ -122,7 +142,7 @@ let Card = (function () {
         let rest = ($(target).val().length % lineLength);
 
         // min-height + lines x line-height + padding + border
-        let newHeight = 40 + lines * 20 + 12 + 2;
+        let newHeight = 38 + lines * 20 + 12 + 2;
 
         if (rest >= 20) {
             this.style.height = newHeight + "px"

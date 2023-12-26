@@ -65,6 +65,7 @@ let Board = (function () {
 
         let divBoardBody = $('<div>');
         divBoardBody.addClass('dropzone rounded-3 d-flex flex-column');
+
         Kanban.addEventsToDropzone(divBoardBody);
 
 
@@ -92,7 +93,6 @@ let Board = (function () {
                 divCard.addClass('card p-2');
                 divCard.attr('data-board_id', board.id);
 
-                console.log(board.id)
                 divCard.html(card.description);
 
                 Kanban.addEventsToCard(divCard);
