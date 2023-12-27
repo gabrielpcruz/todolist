@@ -51,6 +51,11 @@ body, .canvas {
     cursor: move;
 }
 
+.card span:nth-child(1) {
+    padding-right: 40px;
+    text-align: justify;
+}
+
 .board:nth-last-child(0) {
     margin-right: 100px;
 }
@@ -95,4 +100,22 @@ body, .canvas {
 textarea {
     width: 100%;
     resize: none;
+}
+
+.delete-card {
+    background-color: #39000040;
+    padding: 19px;
+    position: absolute;
+    width: 10px;
+    height: 25px;
+    top: 1px;
+    right: 1px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.delete-card i {
+    position: absolute;
+    top: 5px;
+    right: 10px;
 }

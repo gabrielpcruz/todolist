@@ -93,7 +93,15 @@ let Board = (function () {
                 divCard.addClass('card p-2');
                 divCard.attr('data-board_id', board.id);
 
-                divCard.html(card.description);
+                let span = $('<span>');
+                span.html(card.description);
+
+                let buttonEditCard = $('<span>');
+                buttonEditCard.addClass('delete-card');
+                buttonEditCard.html('<i class="bi bi-trash-fill"></i>');
+
+                divCard.append(span);
+                divCard.append(buttonEditCard);
 
                 Kanban.addEventsToCard(divCard);
 
