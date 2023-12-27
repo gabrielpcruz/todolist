@@ -9,6 +9,7 @@ return function (App $app) {
 
     $app->post('/v1/api/card', [Card::class, 'add'] );
     $app->put('/v1/api/card/{id}', [Card::class, 'update'] );
+    $app->delete('/v1/api/card/{id}', [Card::class, 'delete'] );
     $app->get('/v1/api/board', [Board::class, 'all'] );
 
 };

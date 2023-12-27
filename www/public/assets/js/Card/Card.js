@@ -31,7 +31,20 @@ let Card = (function () {
 
         card.addClass('card p-2')
         card.attr('draggable', 'true');
-        card.text(text)
+
+        let span = $('<span>');
+        span.attr('data-state', 'text');
+
+        span.html(text);
+
+        let spanEditCard = $('<span>');
+        spanEditCard.attr('data-state', 'button');
+        spanEditCard.addClass('d-none');
+        spanEditCard.addClass('delete-card');
+        spanEditCard.html('<i class="bi bi-trash-fill"></i>');
+
+        card.append(span);
+        card.append(spanEditCard);
 
         return card;
     };
@@ -43,8 +56,9 @@ let Card = (function () {
 
         let card = Card.create(text);
 
-        card.attr('id', $(target).data('id'))
-        card.data('position', $(target).data('position'))
+        card.attr('id', $(target).data('id'));
+        card.data('position', $(target).data('position'));
+
         Kanban.addEventsToCard(card);
 
         card[0].addEventListener('dblclick', Card.eventEditCard);
@@ -56,9 +70,6 @@ let Card = (function () {
         let cardId = card.attr('id');
 
         if (cardId !== undefined) {
-            console.log(card)
-            console.log($(card).position().top)
-            console.log($(target).data('position'))
             HandleCardAjax.update(card)
                 .fail((response) => {
                     console.log("error:" + response)

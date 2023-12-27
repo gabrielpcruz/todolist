@@ -83,4 +83,13 @@ abstract class Repository
     {
         return $this->queryWhere($params, $with)->limit(1)->get()->first();
     }
+
+    /**
+     * @param int $id
+     * @return bool|null
+     */
+    public function delete(int $id): ?bool
+    {
+        return $this->findOneBy(['id' => $id])->delete();
+    }
 }

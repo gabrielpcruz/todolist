@@ -1,14 +1,6 @@
 let Kanban = (function () {
     let dropzones = [], cards = [];
 
-    let listAllCards = function () {
-        if (cards.length === 0) {
-            cards = $('.card');
-        }
-
-        return cards;
-    };
-
     let listAllDropzones = function () {
         if (dropzones.length === 0) {
             dropzones = $('.dropzone');
@@ -35,6 +27,8 @@ let Kanban = (function () {
         });
 
         if (event) {
+            event.preventDefault();
+
             let { target } = event;
 
             $(target).removeClass('is-dragging');
@@ -42,6 +36,7 @@ let Kanban = (function () {
             // Aqui posso mandar para o banco de dados, onde o cartão foi solto por último e salvar
             let board = Board.getParentBoardByCard($(event.target));
             event.currentTarget.dataset.board_id = board.attr('id').replace('board-', '');
+            event.currentTarget.dataset.position = $(event.target).position().top;
 
             HandleCardAjax.update($(event.target));
 
@@ -57,15 +52,42 @@ let Kanban = (function () {
         }
     }
 
+    let arroz = function (event) {
+        let { target } = event;
+
+        $(target).closest('.card').find("[data-state='button']").removeClass('d-none');
+    };
+
+    let arroz2 = function (event) {
+        let { target } = event;
+
+        $(target).closest('.card').find("[data-state='button']").addClass('d-none');
+    };
+
+    let arroz3 = function (event) {
+        let { target } = event;
+
+        HandleCardAjax.delete($(target).closest('.card'))
+            .done(() => {
+                $(target).closest('.card').remove();
+            });
+    };
+
     let addEventsToCard = function (card) {
         $(card).on('dragstart', dragstart);
         $(card).on('drag', drag);
         $(card).on('dragend', dragend);
+        $(card).on('mouseover', arroz);
+        $(card).on('mouseleave', arroz2);
+        $($(card).find("[data-state='button']")).on('click', arroz3);
     };
 
     let dragenter = function (event) {};
 
     let dragover = function (event) {
+
+        event.stopPropagation();
+
         let board = $(this).parent();
         let position = event.clientY;
         let cardMoving = $(".is-dragging")[0];
@@ -87,15 +109,15 @@ let Kanban = (function () {
     let fillKanban = function () {
         Ajax.get('/v1/api/board')
             .done((response) => {
-            let boards = JSON.parse(response);
+                let boards = JSON.parse(response);
 
-            $.each(boards, function (index, board) {
+                $.each(boards, function (index, board) {
 
-                $('#kanban').append(
-                    Board.createBoard(board, board.cards)
-                );
+                    $('#kanban').append(
+                        Board.createBoard(board, board.cards)
+                    );
+                });
             });
-        })
     };
 
     return {

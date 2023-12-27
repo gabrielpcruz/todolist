@@ -6,22 +6,6 @@
 
 {% block content %}
     <div id="kanban" class="row d-flex flex-nowrap">
-        <div id="board-8" class="board rounded-3 p-2">
-            <div class="head-board rounded-1 d-flex justify-content-start">
-                <p class="fw-semibold">Board padrão 1</p>
-            </div>
-
-            <div class="dropzone rounded-3 d-flex flex-column">
-                <div id="1-1" class="card p-2" draggable="true">
-                    <span>Card 1 Board 1 | asd sad dsaf dsaf sdaf sdfsdaf sd f</span>
-                </div>
-                <div id="1-5" class="card p-2" draggable="true">Card 5 Board 1 | asd sad dsaf dsaf sdaf sdfsdaf sd f</div>
-            </div>
-
-            <div class="footer-board rounded-1 d-grid gap-2">
-                <button class="add-card btn btn-secondary">Adicionar um cartão</button>
-            </div>
-        </div>
     </div>
 
     {% include '@layout/modal-new-card.twig' %}

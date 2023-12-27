@@ -48,7 +48,7 @@ body, .canvas {
     margin-bottom: 5px;
     background-color: #323940;
     color: #b6c2cf;
-    cursor: move;
+    cursor: pointer;
 }
 
 .card span:nth-child(1) {

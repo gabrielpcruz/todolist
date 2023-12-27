@@ -26,8 +26,16 @@ let HandleCardAjax = (function () {
         return Ajax.put(`/v1/api/card/${cardId}`, cardObject);
     };
 
+    let remove = function (card) {
+
+        let cardId = $(card).attr('id');
+
+        return Ajax.delete(`/v1/api/card/${cardId}`);
+    };
+
     return {
         insert:insert,
         update:update,
+        delete:remove,
     }
 })();

@@ -45,7 +45,28 @@ class Card extends AbstractApiController
         $card->board_id = $parameters->board_id;
         $card->position = $parameters->position;
         $card->description = $parameters->description;
-        $status = $card->updateOrFail() ? 200 : 500;
+        $status = 200;
+
+        try {
+            $card->updateOrFail();
+        } catch (Throwable $throwable) {
+            $status = 500;
+        }
+
+        return $this->responseJson($response, [], $status);
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     * @throws Throwable
+     */
+    public function delete(Request $request, Response $response, array $args): Response
+    {
+        $repository = new CardRepository();
+        $status = $repository->delete($args['id']) ? 200 : 500;
 
         return $this->responseJson($response, [], $status);
     }

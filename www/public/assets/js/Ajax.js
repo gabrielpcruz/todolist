@@ -24,9 +24,17 @@ let Ajax = (function () {
         });
     };
 
+    let remove = function (url, parameters = {}) {
+        return $.ajax({
+            method: 'DELETE',
+            url: url
+        });
+    };
+
     return {
         post: post,
         get: get,
         put: put,
+        delete: remove,
     }
 })();
