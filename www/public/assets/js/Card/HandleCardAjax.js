@@ -17,11 +17,10 @@ let HandleCardAjax = (function () {
 
         let cardObject = {
             id: cardId,
-            description: $(card).text(),
+            description: $(card).find("[data-state='text']").text(),
             position: $(card).data('position'),
             board_id: $(card).data('board_id'),
         };
-
 
         return Ajax.put(`/v1/api/card/${cardId}`, cardObject);
     };

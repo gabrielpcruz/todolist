@@ -27,6 +27,9 @@ class BoardEntity extends Entity
      */
     public function cards() : HasMany
     {
-        return $this->hasMany(CardEntity::class, 'board_id', 'id');
+        return $this
+            ->hasMany(CardEntity::class, 'board_id', 'id')
+            ->orderBy('card.position', 'ASC')
+            ->orderBy('card.updated_at', 'DESC');
     }
 }

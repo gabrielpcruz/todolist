@@ -1,4 +1,17 @@
 let Board = (function () {
+    let getLabelStatusByBoardId = function (boarId) {
+        switch (parseInt(boarId)) {
+            case 1:
+                return 'TODO';
+            case 2:
+                return 'DOING';
+            case 3:
+                return 'DONE';
+            default:
+                return 'TODO'
+        }
+    }
+
     let getParentBoardByAddCardButton = function (addCardButon) {
         return $(addCardButon).parent().parent();
     };
@@ -38,6 +51,7 @@ let Board = (function () {
         } else {
             dropzone.prepend(cardMoving);
         }
+
     }
 
     let makeHeadBoard = function (board) {
@@ -64,13 +78,16 @@ let Board = (function () {
 
     let makeFooterBoard = function (board) {
         let divBoardFooter = $('<div>');
-        let divBoardFooterButton = $('<button>');
 
-        divBoardFooterButton.addClass('add-card btn btn-secondary');
-        divBoardFooterButton.html('Adicionar um cartão');
+        if (board.id == 1) {
+            divBoardFooter.addClass('footer-board rounded-1 d-grid gap-2');
 
-        divBoardFooter.addClass('footer-board rounded-1 d-grid gap-2');
-        divBoardFooter.append(divBoardFooterButton);
+            let divBoardFooterButton = $('<button>');
+
+            divBoardFooterButton.addClass('add-card btn btn-secondary');
+            divBoardFooterButton.html('Adicionar um cartão');
+            divBoardFooter.append(divBoardFooterButton);
+        }
 
         return divBoardFooter;
     };
@@ -83,10 +100,14 @@ let Board = (function () {
         divCard.addClass('card p-2');
         divCard.attr('data-board_id', board.id);
 
-        let span = $('<span>');
-        span.attr('data-state', 'text');
+        let spanText = $('<span>');
+        spanText.attr('data-state', 'text');
 
-        span.html(card.description);
+        spanText.html(card.description);
+
+        let spanStatus = $('<span>');
+        spanStatus.html(Board.getLabelStatusByBoardId(board.id));
+        spanStatus.addClass('status-card');
 
         let spanEditCard = $('<span>');
         spanEditCard.attr('data-state', 'button');
@@ -94,8 +115,13 @@ let Board = (function () {
         spanEditCard.addClass('delete-card');
         spanEditCard.html('<i class="bi bi-trash-fill"></i>');
 
-        divCard.append(span);
+        spanText[0].addEventListener('dblclick', Card.eventEditCard);
+        spanEditCard[0].addEventListener('dblclick', Card.eventEditCard);
+        spanStatus[0].addEventListener('dblclick', Card.eventEditCard);
+
+        divCard.append(spanText);
         divCard.append(spanEditCard);
+        divCard.append(spanStatus);
 
         Kanban.addEventsToCard(divCard);
 
@@ -103,7 +129,6 @@ let Board = (function () {
     };
 
     /**
-     * TODO refatorar, isso aqui já me da uma boa parte das partes complicadas
      * @param board
      * @param cards
      * @returns {*|jQuery|HTMLElement|JQuery<HTMLElement>}
@@ -142,7 +167,8 @@ let Board = (function () {
         getParentBoardByAddCardButton,
         getParentBoardByCard,
         insertCardIntoBoadPosition,
-        createBoard
+        createBoard,
+        getLabelStatusByBoardId,
     }
 })();
 

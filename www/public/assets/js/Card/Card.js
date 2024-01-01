@@ -23,7 +23,7 @@ let Card = (function () {
     }
 
     let handleEditCard = function () {
-        $(".card").on('dblclick', Card.eventEditCard);
+        $(".span").on('dblclick', Card.eventEditCard);
     }
 
     let create = function (text) {
@@ -32,10 +32,14 @@ let Card = (function () {
         card.addClass('card p-2')
         card.attr('draggable', 'true');
 
-        let span = $('<span>');
-        span.attr('data-state', 'text');
+        let spanText = $('<span>');
+        spanText.attr('data-state', 'text');
 
-        span.html(text);
+        spanText.html(text);
+
+        let spanStatus = $('<span>');
+        spanStatus.html('');
+        spanStatus.addClass('status-card');
 
         let spanEditCard = $('<span>');
         spanEditCard.attr('data-state', 'button');
@@ -43,8 +47,14 @@ let Card = (function () {
         spanEditCard.addClass('delete-card');
         spanEditCard.html('<i class="bi bi-trash-fill"></i>');
 
-        card.append(span);
+        spanText[0].addEventListener('dblclick', Card.eventEditCard);
+        spanEditCard[0].addEventListener('dblclick', Card.eventEditCard);
+        spanStatus[0].addEventListener('dblclick', Card.eventEditCard);
+
+
+        card.append(spanText);
         card.append(spanEditCard);
+        card.append(spanStatus);
 
         return card;
     };
@@ -54,18 +64,27 @@ let Card = (function () {
 
         let text = $(target).val();
 
+        if (!text.trim()) {
+            this.remove();
+            return false;
+        }
+
         let card = Card.create(text);
+
 
         card.attr('id', $(target).data('id'));
         card.data('position', $(target).data('position'));
 
         Kanban.addEventsToCard(card);
 
-        card[0].addEventListener('dblclick', Card.eventEditCard);
 
         let board = Board.getParentBoardByTextAreaNewCard(target);
 
-        card.data('board_id', $(board).attr('id').replace('board-', ''));
+        let board_id = $(board).attr('id').replace('board-', '');
+
+        Card.updateStatusCard(card, board_id);
+
+        card.data('board_id', board_id);
 
         let cardId = card.attr('id');
 
@@ -101,21 +120,27 @@ let Card = (function () {
     let eventEditCard = function (event) {
         let { target } = event;
 
-        let text = $(target).text();
+        if ($(target).parent('.card').length < 1) {
+            return;
+        }
+
+        let card = $(target).closest('.card');
+
+        let text = $(card).find("[data-state='text']").text();
 
         let form = createFormNewCard(text);
-        let board = Board.getParentBoardByAddCardButton(target);
+        let board = Board.getParentBoardByAddCardButton(card);
 
-        $(form).find('textarea').attr('data-position', $(target).position().top);
-        $(form).find('textarea').attr('data-id', $(target).attr('id'));
+        $(form).find('textarea').attr('data-position', $(card).position().top);
+        $(form).find('textarea').attr('data-id', $(card).attr('id'));
 
-        Board.insertCardIntoBoadPosition(board[0], form[0], $(target).position().top);
+        Board.insertCardIntoBoadPosition(board[0], form[0], $(card).position().top);
 
         setTimeout(() => {
             form.find('textarea').trigger('focus');
         },100);
 
-        this.remove();
+        $(card).remove();
     }
 
     let createFormNewCard = function (value) {
@@ -160,6 +185,10 @@ let Card = (function () {
         }
     };
 
+    let updateStatusCard = function (card, board_id) {
+        $(card).find('.status-card').html(Board.getLabelStatusByBoardId(board_id));
+    }
+
     return {
         handleNewCard,
         handleEditCard,
@@ -168,5 +197,6 @@ let Card = (function () {
         eventEditCard,
         eventNewCard,
         createFormNewCard,
+        updateStatusCard,
     }
 })();
