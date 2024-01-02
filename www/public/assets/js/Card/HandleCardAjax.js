@@ -3,7 +3,7 @@ let HandleCardAjax = (function () {
     let insert = function (card) {
 
         let cardObject = {
-            description: $(card).text(),
+            description: $(card).find("[data-state='text']").text(),
             position: $(card).data('position'),
             board_id: $(card).data('board_id'),
         };
