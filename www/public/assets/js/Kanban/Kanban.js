@@ -31,19 +31,23 @@ let Kanban = (function () {
             event.preventDefault();
             let {target} = event;
 
-            $(target).removeClass('is-dragging');
+            let card = $(event.target);
+
+            $(card).removeClass('is-dragging');
 
             // Aqui posso mandar para o banco de dados, onde o cartão foi solto por último e salvar
 
-            let board = Board.getParentBoardByCard($(event.target));
+            let board = Board.getParentBoardByCard(card);
             let board_id = board.attr('id').replace('board-', '');
 
             $(event.target).data('board_id', board_id);
-            $(event.target).data('position', $(event.target).position().top);
+            $(event.target).data('position', $(card).position().top);
 
             Card.updateStatusCard($(event.target), board_id);
 
-            HandleCardAjax.update($(event.target));
+            WebSocketClient.report('movement', Card.json(card))
+
+            HandleCardAjax.update(card);
         }
     }
 
@@ -66,6 +70,7 @@ let Kanban = (function () {
             .delete($(target).closest('.card'))
             .done(() => {
                 $(target).closest('.card').remove();
+                WebSocketClient.report('exlude', Card.json($(target).closest('.card')))
             });
     };
 

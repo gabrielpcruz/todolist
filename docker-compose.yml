@@ -13,6 +13,8 @@ services:
       - ./config/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
     expose:
       - "9000"
+    ports:
+      - "8080:8080"
   mysql:
     build:
       context: ./bin/mysql

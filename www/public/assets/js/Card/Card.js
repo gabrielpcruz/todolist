@@ -94,8 +94,9 @@ let Card = (function () {
                     console.log("error:" + response)
                 })
                 .done((response) => {
-                    console.log(response)
                     Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+                    WebSocketClient.report('edit', Card.json(card))
+
                 })
                 .always(() => {
                     this.remove();
@@ -110,6 +111,8 @@ let Card = (function () {
                     let cardResponse = JSON.parse(response);
                     $(card).attr('id', cardResponse.cardId)
                     Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+                    WebSocketClient.report('insert', Card.json(card))
+
                 })
                 .always(() => {
                     this.remove();
@@ -187,7 +190,20 @@ let Card = (function () {
 
     let updateStatusCard = function (card, board_id) {
         $(card).find('.status-card').html(Board.getLabelStatusByBoardId(board_id));
-    }
+    };
+
+    let json = function (card) {
+        return JSON.stringify(Card.object(card));
+    };
+
+    let object = function (card) {
+        return {
+            id: $(card).attr('id'),
+            description: $(card).find("[data-state='text']").text(),
+            position: $(card).data('position'),
+            board_id: $(card).data('board_id'),
+        };
+    };
 
     return {
         handleNewCard,
@@ -198,5 +214,7 @@ let Card = (function () {
         eventNewCard,
         createFormNewCard,
         updateStatusCard,
+        json,
+        object,
     }
 })();

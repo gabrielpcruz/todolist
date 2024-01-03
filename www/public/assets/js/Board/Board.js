@@ -169,6 +169,7 @@ let Board = (function () {
         insertCardIntoBoadPosition,
         createBoard,
         getLabelStatusByBoardId,
+        makeCardBoard
     }
 })();
 
