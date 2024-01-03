@@ -107,7 +107,6 @@ let Card = (function () {
                     console.log("error:" + response)
                 })
                 .done((response) => {
-                    console.log(card)
                     let cardResponse = JSON.parse(response);
                     $(card).attr('id', cardResponse.cardId)
                     Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));

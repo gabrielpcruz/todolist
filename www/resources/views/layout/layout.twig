@@ -37,53 +37,6 @@
     <script type="application/javascript" src="{{ assets('js/Card/HandleCardAjax.js') }}?v={{ version() }}"></script>
 
     <script type="application/javascript" src="{{ assets('js/Kanban/Kanban.js') }}?v={{ version() }}"></script>
-
-    <script>
-        jQuery(function () {
-            let socket = WebSocketClient.socket();
-
-            socket.onmessage =  function (event) {
-                let { data } = event;
-                let message = JSON.parse(data);
-
-                if (message.type == "movement") {
-                    let card = JSON.parse(message.object);
-
-                    console.log(card)
-
-                    Board.insertCardIntoBoadPosition(
-                        $(`#board-` + card.board_id)[0],
-                        $(`#` + card.id)[0],
-                        card.position
-                    );
-                }
-
-                if (message.type == "exlude") {
-                    let card = JSON.parse(message.object);
-
-                    $(`#` + card.id).remove();
-                }
-
-                if (message.type == "insert") {
-                    let card = JSON.parse(message.object);
-
-                    let a = Board.makeCardBoard(card, card);
-
-                    Board.insertCardIntoBoadPosition(
-                        $(`#board-` + card.board_id)[0],
-                        a[0],
-                        card.position
-                    );
-                }
-
-                if (message.type == "edit") {
-                    let card = JSON.parse(message.object);
-
-                    $(`#` + card.id).find("[data-state='text']").html(card.description);
-                }
-            };
-        });
-    </script>
 {% endblock scripts %}
 </body>
 </html>

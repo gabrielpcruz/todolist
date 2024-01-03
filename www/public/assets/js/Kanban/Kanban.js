@@ -45,9 +45,10 @@ let Kanban = (function () {
 
             Card.updateStatusCard($(event.target), board_id);
 
-            WebSocketClient.report('movement', Card.json(card))
 
-            HandleCardAjax.update(card);
+            HandleCardAjax.update(card).done(() => {
+                WebSocketClient.report('movement', Card.json(card))
+            });
         }
     }
 
