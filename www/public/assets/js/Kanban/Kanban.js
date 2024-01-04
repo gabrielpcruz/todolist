@@ -176,8 +176,8 @@ let Kanban = (function () {
                 });
 
                 setTimeout(() => {
-                    Card.handleNewCard();
-                    Card.handleEditCard();
+                    HandleCardEvents.handleNewCard();
+                    HandleCardEvents.handleEditCard();
                 }, 100);
             });
     };
