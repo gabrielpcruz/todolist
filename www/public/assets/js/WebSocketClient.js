@@ -19,11 +19,11 @@ let WebSocketClient = (function () {
     let movement = function (message) {
         let card = JSON.parse(message.object);
 
-        Card.updateStatusCard($(`#` + card.id), card.board_id);
+        Card.updateStatusCard($(`#${card.id}`), card.board_id);
 
         Board.insertCardIntoBoadPosition(
-            $(`#board-` + card.board_id)[0],
-            $(`#` + card.id)[0],
+            $(`#board-${card.board_id}`),
+            $(`#${card.id}`),
             card.position
         );
     }
@@ -35,21 +35,21 @@ let WebSocketClient = (function () {
     }
 
     let insert = function (message) {
-        let card = JSON.parse(message.object);
+        let cardObject = JSON.parse(message.object);
 
-        let a = Board.makeCardBoard(card, card);
+        let card = Board.makeCardBoard(cardObject, cardObject);
 
         Board.insertCardIntoBoadPosition(
-            $(`#board-` + card.board_id)[0],
-            a[0],
-            card.position
+            $(`#board-${cardObject.board_id}`),
+            card,
+            cardObject.position
         );
     }
 
     let edit = function (message) {
         let card = JSON.parse(message.object);
 
-        $(`#` + card.id).find("[data-state='text']").html(card.description);
+        $(`#${card.id}`).find("[data-state='text']").html(card.description);
     }
 
     let upstream = function () {

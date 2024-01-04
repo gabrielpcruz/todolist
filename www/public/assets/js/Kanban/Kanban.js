@@ -29,22 +29,16 @@ let Kanban = (function () {
 
         if (event) {
             event.preventDefault();
-            let {target} = event;
-
             let card = $(event.target);
 
             $(card).removeClass('is-dragging');
 
-            // Aqui posso mandar para o banco de dados, onde o cartão foi solto por último e salvar
-
-            let board = Board.getParentBoardByCard(card);
-            let board_id = board.attr('id').replace('board-', '');
+            let board_id = Board.getParentBoardByCard(card).attr('id').replace('board-', '');
 
             $(event.target).data('board_id', board_id);
             $(event.target).data('position', $(card).position().top);
 
             Card.updateStatusCard($(event.target), board_id);
-
 
             HandleCardAjax.update(card).done(() => {
                 WebSocketClient.report('movement', Card.json(card))
@@ -54,24 +48,28 @@ let Kanban = (function () {
 
     let showDeleteButton = function (event) {
         let {target} = event;
+        let card = $(target).closest('.card');
 
-        $(target).closest('.card').find("[data-state='button']").removeClass('d-none');
+        card.find("[data-state='button']").removeClass('d-none');
     };
 
     let hideDeleteButton = function (event) {
         let {target} = event;
+        let card = $(target).closest('.card');
 
-        $(target).closest('.card').find("[data-state='button']").addClass('d-none');
+        card.find("[data-state='button']").addClass('d-none');
     };
 
     let removeCard = function (event) {
         let {target} = event;
 
+        let card = $(target).closest('.card');
+
         HandleCardAjax
-            .delete($(target).closest('.card'))
+            .delete(card)
             .done(() => {
-                $(target).closest('.card').remove();
-                WebSocketClient.report('exlude', Card.json($(target).closest('.card')))
+                card.remove();
+                WebSocketClient.report('exlude', Card.json(card))
             });
     };
 
@@ -88,12 +86,11 @@ let Kanban = (function () {
     };
 
     let dragover = function (event) {
-
         event.stopPropagation();
 
         let board = $(this).parent();
         let position = event.clientY;
-        let cardMoving = $(".is-dragging")[0];
+        let cardMoving = $(".is-dragging");
 
         Board.insertCardIntoBoadPosition(board, cardMoving, position);
     };

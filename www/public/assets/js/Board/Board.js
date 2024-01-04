@@ -47,11 +47,10 @@ let Board = (function () {
         let card = getNewPosition(board, cardMoving, position);
 
         if (card) {
-            card.insertAdjacentElement("afterend", cardMoving);
+            $(card).after(cardMoving);
         } else {
             dropzone.prepend(cardMoving);
         }
-
     }
 
     let makeHeadBoard = function (board) {
@@ -115,9 +114,9 @@ let Board = (function () {
         spanEditCard.addClass('delete-card');
         spanEditCard.html('<i class="bi bi-trash-fill"></i>');
 
-        spanText[0].addEventListener('dblclick', Card.eventEditCard);
-        spanEditCard[0].addEventListener('dblclick', Card.eventEditCard);
-        spanStatus[0].addEventListener('dblclick', Card.eventEditCard);
+        $(spanText).on('dblclick', Card.eventEditCard);
+        $(spanEditCard).on('dblclick', Card.eventEditCard);
+        $(spanStatus).on('dblclick', Card.eventEditCard);
 
         divCard.append(spanText);
         divCard.append(spanEditCard);
@@ -155,7 +154,7 @@ let Board = (function () {
             $.each(cards, function (index, card) {
                 let divCard = makeCardBoard(board, card);
 
-                Board.insertCardIntoBoadPosition(divBoard, divCard[0], card.position);
+                Board.insertCardIntoBoadPosition(divBoard, divCard, card.position);
             });
         }
 

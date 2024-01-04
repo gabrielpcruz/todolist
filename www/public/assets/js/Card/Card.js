@@ -26,7 +26,7 @@ let Card = (function () {
         $(".span").on('dblclick', Card.eventEditCard);
     }
 
-    let create = function (text) {
+    let createFromText = function (text) {
         let card = $('<div>');
 
         card.addClass('card p-2')
@@ -47,9 +47,9 @@ let Card = (function () {
         spanEditCard.addClass('delete-card');
         spanEditCard.html('<i class="bi bi-trash-fill"></i>');
 
-        spanText[0].addEventListener('dblclick', Card.eventEditCard);
-        spanEditCard[0].addEventListener('dblclick', Card.eventEditCard);
-        spanStatus[0].addEventListener('dblclick', Card.eventEditCard);
+        $(spanText).on('dblclick', Card.eventEditCard);
+        $(spanEditCard).on('dblclick', Card.eventEditCard);
+        $(spanStatus).on('dblclick', Card.eventEditCard);
 
 
         card.append(spanText);
@@ -69,8 +69,7 @@ let Card = (function () {
             return false;
         }
 
-        let card = Card.create(text);
-
+        let card = Card.createFromText(text);
 
         card.attr('id', $(target).data('id'));
         card.data('position', $(target).data('position'));
@@ -94,7 +93,7 @@ let Card = (function () {
                     console.log("error:" + response)
                 })
                 .done((response) => {
-                    Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+                    Board.insertCardIntoBoadPosition(board, card, $(target).data('position'));
                     WebSocketClient.report('edit', Card.json(card))
 
                 })
@@ -109,7 +108,7 @@ let Card = (function () {
                 .done((response) => {
                     let cardResponse = JSON.parse(response);
                     $(card).attr('id', cardResponse.cardId)
-                    Board.insertCardIntoBoadPosition(board[0], card[0], $(target).data('position'));
+                    Board.insertCardIntoBoadPosition(board, card, $(target).data('position'));
                     WebSocketClient.report('insert', Card.json(card))
 
                 })
@@ -136,7 +135,7 @@ let Card = (function () {
         $(form).find('textarea').attr('data-position', $(card).position().top);
         $(form).find('textarea').attr('data-id', $(card).attr('id'));
 
-        Board.insertCardIntoBoadPosition(board[0], form[0], $(card).position().top);
+        Board.insertCardIntoBoadPosition(board, form, $(card).position().top);
 
         setTimeout(() => {
             form.find('textarea').trigger('focus');
@@ -160,13 +159,13 @@ let Card = (function () {
             textarea.val(value);
         }
 
-        textarea[0].addEventListener('keyup', resizeTextAreaByContent);
-        textarea[0].addEventListener('input', resizeTextAreaByContent);
-        textarea[0].addEventListener('paste', resizeTextAreaByContent);
+        $(textarea).on('keyup', resizeTextAreaByContent);
+        $(textarea).on('input', resizeTextAreaByContent);
+        $(textarea).on('paste', resizeTextAreaByContent);
 
         form.append(textarea);
 
-        form[0].addEventListener('focusout', Card.replaceTextAreaForCard);
+        $(form).on('focusout', Card.replaceTextAreaForCard);
 
         return form;
     };
@@ -207,7 +206,7 @@ let Card = (function () {
     return {
         handleNewCard,
         handleEditCard,
-        create,
+        createFromText,
         replaceTextAreaForCard,
         eventEditCard,
         eventNewCard,
