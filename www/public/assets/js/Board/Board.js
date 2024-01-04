@@ -1,4 +1,9 @@
 let Board = (function () {
+    /**
+     *
+     * @param boarId
+     * @returns {string}
+     */
     let getLabelStatusByBoardId = function (boarId) {
         switch (parseInt(boarId)) {
             case 1:
@@ -12,18 +17,40 @@ let Board = (function () {
         }
     }
 
-    let getParentBoardByAddCardButton = function (addCardButon) {
+    /**
+     *
+     * @param addCardButon
+     * @returns {*|jQuery}
+     */
+    let getBoardByAddCard = function (addCardButon) {
         return $(addCardButon).parent().parent();
     };
 
-    let getParentBoardByTextAreaNewCard = function (textAreaNewCard) {
+    /**
+     *
+     * @param textAreaNewCard
+     * @returns {*|jQuery}
+     */
+    let getBoardByTextArea = function (textAreaNewCard) {
         return $(textAreaNewCard).parent().parent().parent();
     };
 
-    let getParentBoardByCard = function (card) {
+    /**
+     *
+     * @param card
+     * @returns {*|jQuery}
+     */
+    let getBoardByCard = function (card) {
         return $(card).parent().parent();
     };
 
+    /**
+     *
+     * @param board
+     * @param cardMoving
+     * @param posY
+     * @returns {*}
+     */
     let getNewPosition = function (board, cardMoving, posY) {
         let result;
 
@@ -41,6 +68,12 @@ let Board = (function () {
         return result;
     };
 
+    /**
+     *
+     * @param board
+     * @param cardMoving
+     * @param position
+     */
     let insertCardIntoBoadPosition = function (board, cardMoving, position) {
         let dropzone = $(board).find('.dropzone');
 
@@ -53,6 +86,11 @@ let Board = (function () {
         }
     }
 
+    /**
+     *
+     * @param board
+     * @returns {*|jQuery|HTMLElement}
+     */
     let makeHeadBoard = function (board) {
         let divHeadBoard = $('<div>');
         let divHeadBoardTitle = $('<p>');
@@ -66,6 +104,11 @@ let Board = (function () {
         return divHeadBoard;
     };
 
+    /**
+     *
+     * @param board
+     * @returns {*|jQuery|HTMLElement}
+     */
     let makeBodyBoard = function (board) {
         let divBoardBody = $('<div>');
         divBoardBody.addClass('dropzone rounded-3 d-flex flex-column');
@@ -75,6 +118,11 @@ let Board = (function () {
         return divBoardBody;
     };
 
+    /**
+     *
+     * @param board
+     * @returns {*|jQuery|HTMLElement}
+     */
     let makeFooterBoard = function (board) {
         let divBoardFooter = $('<div>');
 
@@ -89,41 +137,6 @@ let Board = (function () {
         }
 
         return divBoardFooter;
-    };
-
-    let makeCardBoard = function (board, card) {
-        let divCard = $('<div>');
-
-        divCard.attr('id', card.id);
-        divCard.attr('draggable', 'true');
-        divCard.addClass('card p-2');
-        divCard.attr('data-board_id', board.id);
-
-        let spanText = $('<span>');
-        spanText.attr('data-state', 'text');
-        spanText.html(card.description);
-
-        let spanStatus = $('<span>');
-        spanStatus.html(Board.getLabelStatusByBoardId(board.id));
-        spanStatus.addClass('status-card');
-
-        let spanEditCard = $('<span>');
-        spanEditCard.attr('data-state', 'button');
-        spanEditCard.addClass('d-none');
-        spanEditCard.addClass('delete-card');
-        spanEditCard.html('<i class="bi bi-trash-fill"></i>');
-
-        $(spanText).on('dblclick', Card.eventEditCard);
-        $(spanEditCard).on('dblclick', Card.eventEditCard);
-        $(spanStatus).on('dblclick', Card.eventEditCard);
-
-        divCard.append(spanText);
-        divCard.append(spanEditCard);
-        divCard.append(spanStatus);
-
-        Kanban.addEventsToCard(divCard);
-
-        return divCard;
     };
 
     /**
@@ -148,7 +161,7 @@ let Board = (function () {
         divBoard.append(divBoardFooter);
 
         if (cards.length) {
-            cards.sort((a,b) => a.position - b.position);
+            cards.sort((a, b) => a.position - b.position);
 
             $.each(cards, function (index, card) {
                 let divCard = Card.createDivCard(
@@ -166,16 +179,11 @@ let Board = (function () {
     }
 
     return {
-        getParentBoardByTextAreaNewCard,
-        getParentBoardByAddCardButton,
-        getParentBoardByCard,
+        getBoardByTextArea,
+        getBoardByAddCard,
+        getBoardByCard,
         insertCardIntoBoadPosition,
         createBoard,
         getLabelStatusByBoardId,
-        makeCardBoard
     }
 })();
-
-jQuery(function () {
-
-});

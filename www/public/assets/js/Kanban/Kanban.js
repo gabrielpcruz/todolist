@@ -1,6 +1,10 @@
 let Kanban = (function () {
     let dropzones = [], cards = [];
 
+    /**
+     *
+     * @returns {*[]}
+     */
     let listAllDropzones = function () {
         if (dropzones.length === 0) {
             dropzones = $('.dropzone');
@@ -9,6 +13,10 @@ let Kanban = (function () {
         return dropzones;
     };
 
+    /**
+     *
+     * @param event
+     */
     let dragstart = function (event) {
         if (event) {
             $(event.target).addClass('is-dragging');
@@ -19,9 +27,17 @@ let Kanban = (function () {
         });
     }
 
+    /**
+     *
+     * @param event
+     */
     let drag = function (event) {
     }
 
+    /**
+     *
+     * @param event
+     */
     let dragend = function (event) {
         $.each(listAllDropzones(), function (index, dropzone) {
             $(dropzone).removeClass('highlight dropzone-dragging')
@@ -33,12 +49,12 @@ let Kanban = (function () {
 
             $(card).removeClass('is-dragging');
 
-            let board_id = Board.getParentBoardByCard(card).attr('id').replace('board-', '');
+            let board_id = Board.getBoardByCard(card).attr('id').replace('board-', '');
 
             $(event.target).data('board_id', board_id);
             $(event.target).data('position', $(card).position().top);
 
-            Card.updateStatusCard($(event.target), board_id);
+            Card.updateStatusCard($(event.target).attr('id'), board_id);
 
             HandleCardAjax.update(card).done(() => {
                 WebSocketClient.report('dragging', Card.json(card))
@@ -46,6 +62,10 @@ let Kanban = (function () {
         }
     }
 
+    /**
+     *
+     * @param event
+     */
     let showDeleteButton = function (event) {
         let {target} = event;
         let card = $(target).closest('.card');
@@ -53,6 +73,10 @@ let Kanban = (function () {
         card.find("[data-state='button']").removeClass('d-none');
     };
 
+    /**
+     *
+     * @param event
+     */
     let hideDeleteButton = function (event) {
         let {target} = event;
         let card = $(target).closest('.card');
@@ -60,6 +84,10 @@ let Kanban = (function () {
         card.find("[data-state='button']").addClass('d-none');
     };
 
+    /**
+     *
+     * @param event
+     */
     let removeCard = function (event) {
         let {target} = event;
 
@@ -73,6 +101,10 @@ let Kanban = (function () {
             });
     };
 
+    /**
+     *
+     * @param card
+     */
     let addEventsToCard = function (card) {
         $(card).on('dragstart', dragstart);
         $(card).on('drag', drag);
@@ -82,9 +114,17 @@ let Kanban = (function () {
         $($(card).find("[data-state='button']")).on('click', removeCard);
     };
 
+    /**
+     *
+     * @param event
+     */
     let dragenter = function (event) {
     };
 
+    /**
+     *
+     * @param event
+     */
     let dragover = function (event) {
         event.stopPropagation();
 
@@ -95,12 +135,24 @@ let Kanban = (function () {
         Board.insertCardIntoBoadPosition(board, cardMoving, position);
     };
 
+    /**
+     *
+     * @param event
+     */
     let dragleave = function (event) {
     };
 
+    /**
+     *
+     * @param event
+     */
     let drop = function (event) {
     };
 
+    /**
+     *
+     * @param dropzone
+     */
     let addEventsToDropzone = function (dropzone) {
         $(dropzone).on('dragenter', dragenter);
         $(dropzone).on('dragover', dragover);
@@ -108,6 +160,9 @@ let Kanban = (function () {
         $(dropzone).on('drop', drop);
     };
 
+    /**
+     *
+     */
     let fillKanban = function () {
         Ajax.get('/v1/api/board')
             .done((response) => {
@@ -121,7 +176,8 @@ let Kanban = (function () {
                 });
 
                 setTimeout(() => {
-                    EventsDispatcher.dispatch();
+                    Card.handleNewCard();
+                    Card.handleEditCard();
                 }, 100);
             });
     };

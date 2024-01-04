@@ -19,7 +19,12 @@ let WebSocketClient = (function () {
     let create = function (message) {
         let cardObject = JSON.parse(message.object);
 
-        let card = Board.makeCardBoard(cardObject, cardObject);
+        let card = Card.createDivCard(
+            cardObject.position,
+            cardObject.description,
+            cardObject.id,
+            cardObject.board_id
+        );
 
         Board.insertCardIntoBoadPosition(
             $(`#board-${cardObject.board_id}`),
@@ -31,7 +36,7 @@ let WebSocketClient = (function () {
     let dragging = function (message) {
         let card = JSON.parse(message.object);
 
-        Card.updateStatusCard($(`#${card.id}`), card.board_id);
+        Card.updateStatusCard(card.id, card.board_id);
 
         Board.insertCardIntoBoadPosition(
             $(`#board-${card.board_id}`),

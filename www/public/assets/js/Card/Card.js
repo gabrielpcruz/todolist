@@ -3,7 +3,7 @@ let Card = (function () {
     let eventNewCard = function (event) {
         let { target } = event;
 
-        let board = Board.getParentBoardByAddCardButton(target);
+        let board = Board.getBoardByAddCard(target);
 
         let form = Card.createFormNewCard();
 
@@ -26,39 +26,6 @@ let Card = (function () {
         $(".span").on('dblclick', Card.eventEditCard);
     }
 
-    let createFromText = function (text) {
-        let card = $('<div>');
-
-        card.addClass('card p-2')
-        card.attr('draggable', 'true');
-
-        let spanText = $('<span>');
-        spanText.attr('data-state', 'text');
-
-        spanText.html(text);
-
-        let spanStatus = $('<span>');
-        spanStatus.html('');
-        spanStatus.addClass('status-card');
-
-        let spanEditCard = $('<span>');
-        spanEditCard.attr('data-state', 'button');
-        spanEditCard.addClass('d-none');
-        spanEditCard.addClass('delete-card');
-        spanEditCard.html('<i class="bi bi-trash-fill"></i>');
-
-        $(spanText).on('dblclick', Card.eventEditCard);
-        $(spanEditCard).on('dblclick', Card.eventEditCard);
-        $(spanStatus).on('dblclick', Card.eventEditCard);
-
-
-        card.append(spanText);
-        card.append(spanEditCard);
-        card.append(spanStatus);
-
-        return card;
-    };
-
     let replaceTextAreaForCard  = function (event) {
         let { target } = event;
 
@@ -69,7 +36,7 @@ let Card = (function () {
             return false;
         }
 
-        let board = Board.getParentBoardByTextAreaNewCard(target);
+        let board = Board.getBoardByTextArea(target);
 
         let board_id = $(board).attr('id').replace('board-', '');
 
@@ -80,7 +47,7 @@ let Card = (function () {
             board_id
         );
 
-        Card.updateStatusCard(card, board_id);
+        Card.updateStatusCard(card.attr('id'), board_id);
 
         if (card.attr('id') !== undefined) {
             HandleCardAjax.update(card)
@@ -118,7 +85,7 @@ let Card = (function () {
         let text = $(card).find("[data-state='text']").text();
 
         let form = createFormNewCard(text);
-        let board = Board.getParentBoardByAddCardButton(card);
+        let board = Board.getBoardByAddCard(card);
 
         $(form).find('textarea').attr('data-position', $(card).position().top);
         $(form).find('textarea').attr('data-id', $(card).attr('id'));
@@ -174,8 +141,8 @@ let Card = (function () {
         }
     };
 
-    let updateStatusCard = function (card, board_id) {
-        $(card).find('.status-card').html(Board.getLabelStatusByBoardId(board_id));
+    let updateStatusCard = function (card_id, board_id) {
+        $(`#${card_id}`).find('.status-card').html(Board.getLabelStatusByBoardId(board_id));
     };
 
     let json = function (card) {
@@ -259,16 +226,15 @@ let Card = (function () {
     }
 
     return {
-        handleNewCard,
-        handleEditCard,
-        createFromText,
-        createDivCard,
-        replaceTextAreaForCard,
-        eventEditCard,
-        eventNewCard,
         createFormNewCard,
+        createDivCard,
         updateStatusCard,
         json,
         object,
+        handleNewCard,
+        handleEditCard,
+        replaceTextAreaForCard,
+        eventEditCard,
+        eventNewCard,
     }
 })();
