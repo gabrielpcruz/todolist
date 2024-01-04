@@ -33,7 +33,7 @@ let Card = (function () {
 
     /**
      * Esse método foi criado para redimensionar o tamanho do textarea
-     * a medida que o usuário vai digitando.
+     * a medida em que o usuário digita.
      *
      * @param event
      */
