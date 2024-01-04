@@ -21,6 +21,7 @@ body, .canvas {
     color: #b6c2cf;
     padding-top: 10px;
     padding-left: 10px;
+    overflow-x: auto;
 }
 
 .head-board {

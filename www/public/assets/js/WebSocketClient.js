@@ -1,8 +1,10 @@
 let WebSocketClient = (function () {
+    let socketUrl = '192.168.1.12';
+
     let socket = false;
 
     let connect = function () {
-        socket = new WebSocket('ws://localhost:8080');
+        socket = new WebSocket(`ws://${socketUrl}:8080`);
     }
     let getSocket = function () {
         if (!socket) {
