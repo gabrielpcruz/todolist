@@ -1,5 +1,10 @@
 let HandleCardAjax = (function () {
 
+    /**
+     *
+     * @param card
+     * @returns {*}
+     */
     let insert = function (card) {
 
         let cardObject = {
@@ -11,6 +16,11 @@ let HandleCardAjax = (function () {
         return Ajax.post('/v1/api/card', cardObject);
     };
 
+    /**
+     *
+     * @param card
+     * @returns {*}
+     */
     let update = function (card) {
 
         let cardId = $(card).attr('id');
@@ -25,6 +35,11 @@ let HandleCardAjax = (function () {
         return Ajax.put(`/v1/api/card/${cardId}`, cardObject);
     };
 
+    /**
+     *
+     * @param card
+     * @returns {*}
+     */
     let remove = function (card) {
 
         let cardId = $(card).attr('id');

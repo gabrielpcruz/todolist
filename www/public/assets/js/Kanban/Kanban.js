@@ -169,7 +169,6 @@ let Kanban = (function () {
                 let boards = JSON.parse(response);
 
                 $.each(boards, function (index, board) {
-
                     $('#kanban').append(
                         Board.createBoard(board, board.cards)
                     );

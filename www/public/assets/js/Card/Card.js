@@ -1,5 +1,10 @@
 let Card = (function () {
 
+    /**
+     *
+     * @param value
+     * @returns {*|jQuery|HTMLElement}
+     */
     let createFormNewCard = function (value) {
         let form = $('<form>');
         form.attr('id', 'new-card');
@@ -26,6 +31,12 @@ let Card = (function () {
         return form;
     };
 
+    /**
+     * Esse método foi criado para redimensionar o tamanho do textarea
+     * a medida que o usuário vai digitando.
+     *
+     * @param event
+     */
     let resizeTextAreaByContent = function (event) {
         let { target } = event;
 
@@ -42,14 +53,29 @@ let Card = (function () {
         }
     };
 
+    /**
+     *
+     * @param card_id
+     * @param board_id
+     */
     let updateStatusCard = function (card_id, board_id) {
         $(`#${card_id}`).find('.status-card').html(Board.getLabelStatusByBoardId(board_id));
     };
 
+    /**
+     *
+     * @param card
+     * @returns {string}
+     */
     let json = function (card) {
         return JSON.stringify(Card.object(card));
     };
 
+    /**
+     *
+     * @param card
+     * @returns {{board_id: (*|jQuery), description: (*|jQuery), id: (jQuery|*), position: (*|jQuery)}}
+     */
     let object = function (card) {
         return {
             id: $(card).attr('id'),
@@ -59,6 +85,14 @@ let Card = (function () {
         };
     };
 
+    /**
+     *
+     * @param position
+     * @param description
+     * @param card_id
+     * @param board_id
+     * @returns {*|jQuery|HTMLElement}
+     */
     let createDivCard = function (
         position,
         description = false,
@@ -89,6 +123,11 @@ let Card = (function () {
         return card;
     }
 
+    /**
+     *
+     * @param description
+     * @returns {*|jQuery|HTMLElement}
+     */
     let createSpanCardDescription = function (description = false) {
         let span = $('<span>');
 
@@ -102,6 +141,11 @@ let Card = (function () {
         return span;
     }
 
+    /**
+     *
+     * @param board_id
+     * @returns {*|jQuery|HTMLElement}
+     */
     let createSpanCardStatus = function (board_id ) {
         let span = $('<span>');
 
@@ -113,6 +157,10 @@ let Card = (function () {
         return span;
     }
 
+    /**
+     *
+     * @returns {*|jQuery|HTMLElement}
+     */
     let createSpanCardEdit = function () {
         let span = $('<span>');
 

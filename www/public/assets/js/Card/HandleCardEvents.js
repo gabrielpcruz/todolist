@@ -1,13 +1,23 @@
 let HandleCardEvents = (function () {
 
+    /**
+     *
+     */
     let handleNewCard = function () {
         $(".add-card").on('click', HandleCardEvents.eventNewCard);
     }
 
+    /**
+     *
+     */
     let handleEditCard = function () {
         $(".span").on('dblclick', HandleCardEvents.eventEditCard);
     }
 
+    /**
+     *
+     * @param event
+     */
     let eventNewCard = function (event) {
         let { target } = event;
 
@@ -26,6 +36,10 @@ let HandleCardEvents = (function () {
         },100);
     };
 
+    /**
+     *
+     * @param event
+     */
     let eventEditCard = function (event) {
         let { target } = event;
 
@@ -52,6 +66,11 @@ let HandleCardEvents = (function () {
         $(card).remove();
     }
 
+    /**
+     *
+     * @param event
+     * @returns {boolean}
+     */
     let eventReplaceForCard  = function (event) {
         let { target } = event;
 
@@ -73,37 +92,53 @@ let HandleCardEvents = (function () {
             board_id
         );
 
-        Card.updateStatusCard(card.attr('id'), board_id);
+        handleAjaxMethod(target,card, board);
+    }
 
-        if (card.attr('id') !== undefined) {
-            HandleCardAjax.update(card)
-                .done((response) => {
-                    Board.insertCardIntoBoadPosition(board, card, $(target).data('position'));
-                    WebSocketClient.report('update', Card.json(card))
+    /**
+     *
+     * @param target
+     * @param card
+     * @param board
+     */
+    let handleAjaxMethod = function (target, card, board) {
+        let board_id = $(board).attr('id').replace('board-', '');
+        let card_id = card.attr('id');
 
-                })
-                .always(() => {
-                    this.remove();
-                });
+        let callbackFunction = function (response) {
+            let reportType = 'create';
+            let position = $(card).data('position');
+
+            let responseObject = JSON.parse(response);
+
+            if (Object.hasOwn(responseObject, 'cardId')) {
+                $(card).attr('id', responseObject.cardId);
+            }
+
+            if (card_id !== undefined) {
+                reportType = 'update';
+                position = $(target).data('position');
+                Card.updateStatusCard(card_id, board_id);
+            }
+
+            Board.insertCardIntoBoadPosition(board, card, position);
+            WebSocketClient.report(reportType, Card.json(card));
+        }
+
+        if (card_id === undefined) {
+            HandleCardAjax.insert(card).done(callbackFunction).always(() => {
+                $(target).remove()
+            });
         } else {
-            HandleCardAjax.insert(card)
-                .done((response) => {
-                    let cardResponse = JSON.parse(response);
-                    $(card).attr('id', cardResponse.cardId)
-                    Board.insertCardIntoBoadPosition(board, card, $(card).data('position'));
-                    WebSocketClient.report('create', Card.json(card))
-                })
-                .always(() => {
-                    this.remove();
-                });
+            HandleCardAjax.update(card).done(callbackFunction).always(() => {
+                $(target).remove()
+            });
         }
     }
 
     return {
         handleNewCard,
         handleEditCard,
-
-
         eventReplaceForCard,
         eventEditCard,
         eventNewCard,
