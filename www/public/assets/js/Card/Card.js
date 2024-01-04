@@ -69,32 +69,24 @@ let Card = (function () {
             return false;
         }
 
-        let card = Card.createFromText(text);
-
-        card.attr('id', $(target).data('id'));
-        card.data('position', $(target).data('position'));
-
-        Kanban.addEventsToCard(card);
-
-
         let board = Board.getParentBoardByTextAreaNewCard(target);
 
         let board_id = $(board).attr('id').replace('board-', '');
 
+        let card = Card.createDivCard(
+            $(target).data('position'),
+            text,
+            $(target).data('id'),
+            board_id
+        );
+
         Card.updateStatusCard(card, board_id);
 
-        card.data('board_id', board_id);
-
-        let cardId = card.attr('id');
-
-        if (cardId !== undefined) {
+        if (card.attr('id') !== undefined) {
             HandleCardAjax.update(card)
-                .fail((response) => {
-                    console.log("error:" + response)
-                })
                 .done((response) => {
                     Board.insertCardIntoBoadPosition(board, card, $(target).data('position'));
-                    WebSocketClient.report('edit', Card.json(card))
+                    WebSocketClient.report('update', Card.json(card))
 
                 })
                 .always(() => {
@@ -102,15 +94,11 @@ let Card = (function () {
                 });
         } else {
             HandleCardAjax.insert(card)
-                .fail((response) => {
-                    console.log("error:" + response)
-                })
                 .done((response) => {
                     let cardResponse = JSON.parse(response);
                     $(card).attr('id', cardResponse.cardId)
-                    Board.insertCardIntoBoadPosition(board, card, $(target).data('position'));
-                    WebSocketClient.report('insert', Card.json(card))
-
+                    Board.insertCardIntoBoadPosition(board, card, $(card).data('position'));
+                    WebSocketClient.report('create', Card.json(card))
                 })
                 .always(() => {
                     this.remove();
@@ -203,10 +191,78 @@ let Card = (function () {
         };
     };
 
+    let createDivCard = function (
+        position,
+        description = false,
+        card_id = false,
+        board_id = false
+    ) {
+        let card = $('<div>');
+
+        card.attr('draggable', 'true');
+        card.addClass('card p-2');
+
+        card.attr('data-position', position);
+
+        if (card_id) {
+            card.attr('id', card_id);
+        }
+
+        if (board_id) {
+            card.attr('data-board_id', board_id);
+        }
+
+        card.append(createSpanCardDescription(description));
+        card.append(createSpanCardStatus(board_id));
+        card.append(createSpanCardEdit());
+
+        Kanban.addEventsToCard(card);
+
+        return card;
+    }
+
+    let createSpanCardDescription = function (description = false) {
+        let span = $('<span>');
+
+        span.attr('data-state', 'text');
+        $(span).on('dblclick', Card.eventEditCard);
+
+        if (description) {
+            span.html(description);
+        }
+
+        return span;
+    }
+
+    let createSpanCardStatus = function (board_id ) {
+        let span = $('<span>');
+
+        span.addClass('status-card');
+        $(span).on('dblclick', Card.eventEditCard);
+
+        span.html(Board.getLabelStatusByBoardId(board_id));
+
+        return span;
+    }
+
+    let createSpanCardEdit = function () {
+        let span = $('<span>');
+
+        span.attr('data-state', 'button');
+        span.addClass('d-none');
+        span.addClass('delete-card');
+        $(span).on('dblclick', Card.eventEditCard);
+
+        span.html('<i class="bi bi-trash-fill"></i>');
+
+        return span;
+    }
+
     return {
         handleNewCard,
         handleEditCard,
         createFromText,
+        createDivCard,
         replaceTextAreaForCard,
         eventEditCard,
         eventNewCard,

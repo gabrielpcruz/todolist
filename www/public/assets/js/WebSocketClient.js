@@ -13,28 +13,10 @@ let WebSocketClient = (function () {
     }
 
     let report = function (type, object) {
-        getSocket().send(JSON.stringify({'type': type, 'object' : object}));
+        getSocket().send(JSON.stringify({'type': type, 'object': object}));
     }
 
-    let movement = function (message) {
-        let card = JSON.parse(message.object);
-
-        Card.updateStatusCard($(`#${card.id}`), card.board_id);
-
-        Board.insertCardIntoBoadPosition(
-            $(`#board-${card.board_id}`),
-            $(`#${card.id}`),
-            card.position
-        );
-    }
-
-    let exclude = function (message) {
-        let card = JSON.parse(message.object);
-
-        $(`#` + card.id).remove();
-    }
-
-    let insert = function (message) {
+    let create = function (message) {
         let cardObject = JSON.parse(message.object);
 
         let card = Board.makeCardBoard(cardObject, cardObject);
@@ -46,40 +28,58 @@ let WebSocketClient = (function () {
         );
     }
 
-    let edit = function (message) {
+    let dragging = function (message) {
+        let card = JSON.parse(message.object);
+
+        Card.updateStatusCard($(`#${card.id}`), card.board_id);
+
+        Board.insertCardIntoBoadPosition(
+            $(`#board-${card.board_id}`),
+            $(`#${card.id}`),
+            card.position
+        );
+    }
+
+    let update = function (message) {
         let card = JSON.parse(message.object);
 
         $(`#${card.id}`).find("[data-state='text']").html(card.description);
     }
 
+    let remove = function (message) {
+        let card = JSON.parse(message.object);
+
+        $(`#` + card.id).remove();
+    }
+
     let upstream = function () {
-        getSocket().onmessage =  function (event) {
-            let { data } = event;
+        getSocket().onmessage = function (event) {
+            let {data} = event;
             let message = JSON.parse(data);
 
-            if (message.type == "movement") {
-                movement(message);
+            if (message.type === "create") {
+                create(message);
             }
 
-            if (message.type == "exlude") {
-                exclude(message);
+            if (message.type === "dragging") {
+                dragging(message);
             }
 
-            if (message.type == "insert") {
-                insert(message);
+            if (message.type === "update") {
+                update(message)
             }
 
-            if (message.type == "edit") {
-                edit(message)
+            if (message.type === "remove") {
+                remove(message);
             }
         };
     }
 
     return {
         init: function () {
-          upstream();
+            upstream();
         },
-        report:report,
+        report: report,
     }
 })();
 

@@ -41,7 +41,7 @@ let Kanban = (function () {
             Card.updateStatusCard($(event.target), board_id);
 
             HandleCardAjax.update(card).done(() => {
-                WebSocketClient.report('movement', Card.json(card))
+                WebSocketClient.report('dragging', Card.json(card))
             });
         }
     }
@@ -69,7 +69,7 @@ let Kanban = (function () {
             .delete(card)
             .done(() => {
                 card.remove();
-                WebSocketClient.report('exlude', Card.json(card))
+                WebSocketClient.report('remove', Card.json(card))
             });
     };
 

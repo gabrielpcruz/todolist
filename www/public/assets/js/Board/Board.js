@@ -101,7 +101,6 @@ let Board = (function () {
 
         let spanText = $('<span>');
         spanText.attr('data-state', 'text');
-
         spanText.html(card.description);
 
         let spanStatus = $('<span>');
@@ -152,7 +151,12 @@ let Board = (function () {
             cards.sort((a,b) => a.position - b.position);
 
             $.each(cards, function (index, card) {
-                let divCard = makeCardBoard(board, card);
+                let divCard = Card.createDivCard(
+                    card.position,
+                    card.description,
+                    card.id,
+                    board.id
+                );
 
                 Board.insertCardIntoBoadPosition(divBoard, divCard, card.position);
             });
