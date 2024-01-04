@@ -31,6 +31,8 @@ services:
     volumes:
       - ${MYSQL_PATH-./config/mysql/mysql/}:/var/lib/mysql
       - ${MYSQL_LOGS-./logs/mysql/}:/var/log/mysql
+      - ./www/docs/scripts/sql/schema.sql:/data/application/schema.sql
+    command: --init-file /data/application/schema.sql
   websocket:
     build:
       context: ./bin/websocket
@@ -45,7 +47,7 @@ services:
     ports:
       - "8080:8080"
     command:
-      - resources/start.sh
+      - docs/scripts/bash/websocket_server.sh
   redis:
     build:
       context: ./bin/redis

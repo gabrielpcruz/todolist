@@ -17,16 +17,19 @@ class Card extends AbstractApiController
      * @return Response
      * @throws Throwable
      */
-    public function add(Request $request, Response $response): Response
+    public function create(Request $request, Response $response): Response
     {
         $cardRepository = new CardRepository();
         $card = $cardRepository->create($request->getParsedBody());
+        $status = 500;
+        $id = false;
 
-        $status = ($card instanceof CardEntity) ? 200 : 500;
+        if ($card instanceof CardEntity) {
+            $status = 200;
+            $id = $card->getId();
+        }
 
-        return $this->responseJson($response, [
-            'cardId' => $card->getId()
-        ], $status);
+        return $this->responseJson($response, ['cardId' => $id], $status);
     }
 
     /**

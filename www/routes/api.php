@@ -8,7 +8,7 @@ use Slim\Routing\RouteCollectorProxy;
 return function (App $app) {
     $app->group('/v1/api', function (RouteCollectorProxy $api) {
 
-        $api->post('/card', [Card::class, 'add'] );
+        $api->post('/card', [Card::class, 'create'] );
         $api->put('/card/{id}', [Card::class, 'update'] );
         $api->delete('/card/{id}', [Card::class, 'delete'] );
 

@@ -29,6 +29,8 @@ class CardRepository extends Repository
             $card = new CardEntity();
             $card->fill($attributes);
             $card->save();
+
+            return $card;
         }, 3);
     }
 
