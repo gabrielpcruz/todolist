@@ -1,15 +1,18 @@
 <?php
 
-
 use App\Http\Api\Board\Board;
 use App\Http\Api\Card\Card;
 use Slim\App;
+use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
+    $app->group('/v1/api', function (RouteCollectorProxy $api) {
 
-    $app->post('/v1/api/card', [Card::class, 'add'] );
-    $app->put('/v1/api/card/{id}', [Card::class, 'update'] );
-    $app->delete('/v1/api/card/{id}', [Card::class, 'delete'] );
-    $app->get('/v1/api/board', [Board::class, 'all'] );
+        $api->post('/card', [Card::class, 'add'] );
+        $api->put('/card/{id}', [Card::class, 'update'] );
+        $api->delete('/card/{id}', [Card::class, 'delete'] );
 
+
+        $api->get('/board', [Board::class, 'all'] );
+    });
 };

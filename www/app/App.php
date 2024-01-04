@@ -22,8 +22,11 @@ class App
     private static SlimApp $app;
 
     /**
+     * @return SlimApp
+     * @throws ContainerExceptionInterface
      * @throws DependencyException
      * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public static function bootstrap(): SlimApp
     {
@@ -40,7 +43,7 @@ class App
      * @return Container
      * @throws Exception
      */
-    private static function getContainer(): Container
+    public static function container(): Container
     {
         if (!isset(self::$container)) {
             self::$container = (new ContainerBuilder())->build();
@@ -57,7 +60,7 @@ class App
     public static function getInstace()
     {
         if (!isset(self::$app)) {
-            self::$app = self::getContainer()->get(SlimApp::class);
+            self::$app = self::container()->get(SlimApp::class);
         }
 
         return self::$app;
@@ -85,23 +88,18 @@ class App
 
     /**
      * @return void
+     * @throws ContainerExceptionInterface
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     private static function setupDatabase(): void
     {
         $manager = new Manager();
 
-        $connection = [
-            'driver' => 'mysql',
-            'host' => '192.168.1.12:9909',
-            'database' => 'todolist',
-            'username' => 'root',
-            'password' => 'root',
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_0900_ai_ci',
-            'prefix' => '',
-        ];
+        $connection = self::settings()->get('database');
 
-        $manager->addConnection($connection, 'default');
+        $manager->addConnection($connection);
 
         $manager->setAsGlobal();
         $manager->bootEloquent();

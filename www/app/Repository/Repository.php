@@ -2,10 +2,14 @@
 
 namespace App\Repository;
 
-
+use App\App;
 use App\Entity\Entity;
+use DI\DependencyException;
+use DI\NotFoundException;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\ConnectionInterface;
 
 abstract class Repository
 {
@@ -91,5 +95,16 @@ abstract class Repository
     public function delete(int $id): ?bool
     {
         return $this->findOneBy(['id' => $id])->delete();
+    }
+
+    /**
+     * @return ConnectionInterface
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
+     */
+    public function connection() : ConnectionInterface
+    {
+        return App::container()->get(ConnectionInterface::class);
     }
 }

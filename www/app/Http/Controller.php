@@ -9,25 +9,6 @@ abstract class Controller
     /**
      * @return stdClass
      */
-    protected function getParsedBody(): stdClass
-    {
-        $body = new stdClass();
-
-        if (empty($_POST)) {
-            return $body;
-        }
-
-        foreach ($_POST as $key => $value) {
-            $body->{$key} = filter_var($value);
-
-        }
-
-        return $body;
-    }
-
-    /**
-     * @return stdClass
-     */
     protected function getParameters(): stdClass
     {
         $body = new stdClass();

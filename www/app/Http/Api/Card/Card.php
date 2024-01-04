@@ -5,7 +5,6 @@ namespace App\Http\Api\Card;
 use App\Entity\Card\CardEntity;
 use App\Http\Api\AbstractApiController;
 use App\Repository\Card\CardRepository;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Throwable;
@@ -20,9 +19,10 @@ class Card extends AbstractApiController
      */
     public function add(Request $request, Response $response): Response
     {
-        $card = new CardEntity();
-        $card->fill($request->getParsedBody());
-        $status = $card->saveOrFail() ? 200 : 500;
+        $cardRepository = new CardRepository();
+        $card = $cardRepository->create($request->getParsedBody());
+
+        $status = ($card instanceof CardEntity) ? 200 : 500;
 
         return $this->responseJson($response, [
             'cardId' => $card->getId()
@@ -40,18 +40,10 @@ class Card extends AbstractApiController
     {
         $parameters = $this->getParameters();
 
-        $repository = new CardRepository();
-        $card = $repository->findOneBy(['id' => $args['id']]);
-        $card->board_id = $parameters->board_id;
-        $card->position = $parameters->position;
-        $card->description = $parameters->description;
-        $status = 200;
+        $cardRepository = new CardRepository();
+        $parameters = json_decode(json_encode($parameters), true);
 
-        try {
-            $card->updateOrFail();
-        } catch (Throwable $throwable) {
-            $status = 500;
-        }
+        $status = $cardRepository->update($args['id'], $parameters) ? 200 : 500;
 
         return $this->responseJson($response, [], $status);
     }

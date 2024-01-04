@@ -3,6 +3,7 @@
 use Adbar\Dot;
 use App\Twig\AssetsExtension;
 use App\Twig\VersionExtension;
+use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -54,5 +55,9 @@ return [
 
 
         return $twig;
+    },
+
+    Illuminate\Database\ConnectionInterface::class => function (ContainerInterface $container) {
+        return Manager::connection('default');
     },
 ];

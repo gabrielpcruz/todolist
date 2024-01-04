@@ -14,6 +14,9 @@ class BoardRepository extends Repository
      */
     protected string $entityClass = BoardEntity::class;
 
+    /**
+     * @return Collection
+     */
     public function all(): Collection
     {
         return $this->getEntity()::with('cards')->get();

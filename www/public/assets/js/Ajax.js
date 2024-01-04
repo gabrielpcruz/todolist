@@ -1,34 +1,32 @@
 let Ajax = (function () {
 
-    let post = function (url, parameters = {}) {
-
-        return $.ajax({
-            method: 'POST',
+    let ajax = function (url, method, parameters = {}) {
+        let configurations = {
+            method: method,
             url: url,
-            data: parameters
-        });
+        };
+
+        if (!jQuery.isEmptyObject(parameters)) {
+            Object.assign(configurations, {data: parameters})
+        }
+
+        return $.ajax(configurations);
     };
 
-    let get = function (url, parameters = {}) {
-        return $.ajax({
-            method: 'GET',
-            url: url
-        });
+    let post = function (url, parameters) {
+        return ajax(url, 'POST', parameters)
     };
 
-    let put = function (url, parameters = {}) {
-        return $.ajax({
-            method: 'PUT',
-            url: url,
-            data: parameters
-        });
+    let get = function (url) {
+        return ajax(url, 'GET')
     };
 
-    let remove = function (url, parameters = {}) {
-        return $.ajax({
-            method: 'DELETE',
-            url: url
-        });
+    let put = function (url, parameters) {
+        return ajax(url, 'PUT', parameters)
+    };
+
+    let remove = function (url) {
+        return ajax(url, 'DELETE')
     };
 
     return {

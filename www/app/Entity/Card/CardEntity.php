@@ -34,6 +34,10 @@ class CardEntity extends Entity
      */
     public function board() : HasOne
     {
-        return $this->hasOne(BoardEntity::class, 'id', 'board_id');
+        return $this->hasOne(
+            BoardEntity::class,
+            'id',
+            'board_id'
+        );
     }
 }

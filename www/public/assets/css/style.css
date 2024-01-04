@@ -23,7 +23,6 @@ body, .canvas {
     padding-left: 10px;
 }
 
-
 .head-board {
     min-height: 40px;
 }
@@ -93,10 +92,6 @@ body, .canvas {
 .new-card {
     height: fit-content;
 }
-
-/*
-
-*/
 
 textarea {
     width: 100%;

@@ -9,6 +9,11 @@ use Slim\Psr7\Response;
 
 class Board extends AbstractApiController
 {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function all(Request $request, Response $response): Response
     {
         $repository = new BoardRepository();

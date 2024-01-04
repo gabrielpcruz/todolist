@@ -13,9 +13,6 @@ services:
       - ./config/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
     expose:
       - "9000"
-    ports:
-      - "8080:8080"
-
   mysql:
     build:
       context: ./bin/mysql
@@ -34,10 +31,10 @@ services:
     volumes:
       - ${MYSQL_PATH-./config/mysql/mysql/}:/var/lib/mysql
       - ${MYSQL_LOGS-./logs/mysql/}:/var/log/mysql
-  cli:
+  websocket:
     build:
-      context: ./bin/cli
-    container_name: ${COMPOSER_PROJECT_NAME}_cli
+      context: ./bin/websocket
+    container_name: ${COMPOSER_PROJECT_NAME}_websocket
     working_dir: /usr/share/nginx/html
     depends_on:
       - app
@@ -45,6 +42,10 @@ services:
       - container_default
     volumes_from:
       - app
+    ports:
+      - "8080:8080"
+    command:
+      - resources/start.sh
   redis:
     build:
       context: ./bin/redis

@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Site\ArrozControle;
+use App\Http\Site\KanbanController;
 use Slim\App;
 
 return function (App $app) {
-    $app->get('/', [ArrozControle::class, 'index'] );
-
+    $app->get('/', [KanbanController::class, 'index'] );
 };
