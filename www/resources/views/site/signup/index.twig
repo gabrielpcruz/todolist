@@ -1,0 +1,54 @@
+
+{% extends '@layout/layout.twig' %}
+
+{% block title %}
+    Cadstrar
+{% endblock title %}
+
+{% block content %}
+    <form method="POST" id="user-form" class="a">
+        <div class="text-left">
+            <label for="name">Nome</label>
+            <input
+                    class="input-login-singup"
+                    autocomplete="off"
+                    type="text"
+                    placeholder="Usuário"
+                    name="name"
+                    id="name"
+                    value=""
+                    autofocus
+            >
+        </div>
+
+        <div class="text-left">
+            <label for="email">E-mail</label>
+            <input
+                    class="input-login-singup"
+                    autocomplete="off"
+                    type="email"
+                    placeholder="E-mail (email@gmail.com)"
+                    id="email"
+                    name="email"
+                    value=""
+            >
+        </div>
+        <div class="text-left">
+            <label for="password">Senha</label>
+            <input
+                    class="input-login-singup"
+                    autocomplete="off"
+                    type="password"
+                    placeholder="Senha"
+                    id="password"
+                    name="password"
+                    value=""
+            >
+        </div>
+
+        <div>
+            <a href="#" id="cadastrar" class="btn btn-block">Cadastrar</a>
+            <a href="/login" class="btn btn-block">Login</a>
+        </div>
+    </form>
+{% endblock content %}

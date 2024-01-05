@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\ConnectionInterface;
 
-abstract class Repository
+abstract class AbstractRepository
 {
     /**
      * @var Entity|null

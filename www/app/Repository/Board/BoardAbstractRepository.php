@@ -4,10 +4,10 @@ namespace App\Repository\Board;
 
 use App\Entity\Board\BoardEntity;
 use App\Entity\Card\CardEntity;
-use App\Repository\Repository;
+use App\Repository\AbstractRepository;
 use Illuminate\Database\Eloquent\Collection;
 
-class BoardRepository extends Repository
+class BoardAbstractRepository extends AbstractRepository
 {
     /**
      * @var string

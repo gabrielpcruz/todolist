@@ -4,7 +4,7 @@ namespace App\Http\Api\Card;
 
 use App\Entity\Card\CardEntity;
 use App\Http\Api\AbstractApiController;
-use App\Repository\Card\CardRepository;
+use App\Repository\Card\CardAbstractRepository;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Throwable;
@@ -19,7 +19,7 @@ class Card extends AbstractApiController
      */
     public function create(Request $request, Response $response): Response
     {
-        $cardRepository = new CardRepository();
+        $cardRepository = new CardAbstractRepository();
         $card = $cardRepository->create($request->getParsedBody());
         $status = 500;
         $id = false;
@@ -43,7 +43,7 @@ class Card extends AbstractApiController
     {
         $parameters = $this->getParameters();
 
-        $cardRepository = new CardRepository();
+        $cardRepository = new CardAbstractRepository();
         $parameters = json_decode(json_encode($parameters), true);
 
         $status = $cardRepository->update($args['id'], $parameters) ? 200 : 500;
@@ -60,7 +60,7 @@ class Card extends AbstractApiController
      */
     public function delete(Request $request, Response $response, array $args): Response
     {
-        $repository = new CardRepository();
+        $repository = new CardAbstractRepository();
         $status = $repository->delete($args['id']) ? 200 : 500;
 
         return $this->responseJson($response, [], $status);
