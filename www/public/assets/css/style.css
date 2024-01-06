@@ -130,3 +130,22 @@ textarea {
     text-align: center;
     font-weight: 900;
 }
+
+.user-card {
+    background-color: #883232;
+    position: absolute;
+    max-width: 160px;
+    top: 5px;
+    left: 70px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 9px;
+    color: #ffe8e8;
+    text-align: center;
+    font-weight: 900;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

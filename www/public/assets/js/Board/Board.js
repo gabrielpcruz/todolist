@@ -168,7 +168,8 @@ let Board = (function () {
                     card.position,
                     card.description,
                     card.id,
-                    board.id
+                    board.id,
+                    card.user_name
                 );
 
                 Board.insertCardIntoBoadPosition(divBoard, divCard, card.position);

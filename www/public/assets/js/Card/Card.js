@@ -97,7 +97,8 @@ let Card = (function () {
         position,
         description = false,
         card_id = false,
-        board_id = false
+        board_id = false,
+        user_name = false
     ) {
         let card = $('<div>');
 
@@ -116,6 +117,11 @@ let Card = (function () {
 
         card.append(createSpanCardDescription(description));
         card.append(createSpanCardStatus(board_id));
+
+        if (user_name) {
+            card.append(createSpanCardUser(user_name));
+        }
+
         card.append(createSpanCardEdit());
 
         Kanban.addEventsToCard(card);
@@ -146,13 +152,29 @@ let Card = (function () {
      * @param board_id
      * @returns {*|jQuery|HTMLElement}
      */
-    let createSpanCardStatus = function (board_id ) {
+    let createSpanCardStatus = function (board_id) {
         let span = $('<span>');
 
         span.addClass('status-card');
         $(span).on('dblclick', HandleCardEvents.eventEditCard);
 
         span.html(Board.getLabelStatusByBoardId(board_id));
+
+        return span;
+    }
+
+    /**
+     *
+     * @param board_id
+     * @returns {*|jQuery|HTMLElement}
+     */
+    let createSpanCardUser = function (user_name) {
+        let span = $('<span>');
+
+        span.addClass('user-card text-uppercase');
+        $(span).on('dblclick', HandleCardEvents.eventEditCard);
+
+        span.html(user_name);
 
         return span;
     }

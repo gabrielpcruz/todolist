@@ -4,6 +4,7 @@ namespace App\Repository\Card;
 
 use App\Entity\Card\CardEntity;
 use App\Repository\AbstractRepository;
+use App\Utils\Session;
 use DI\DependencyException;
 use DI\NotFoundException;
 use stdClass;
@@ -27,6 +28,8 @@ class CardAbstractRepository extends AbstractRepository
     {
         return $this->connection()->transaction(function () use ($attributes) {
             $card = new CardEntity();
+            $attributes['user_id'] = Session::getUser()?->getId()? : null;
+
             $card->fill($attributes);
             $card->save();
 

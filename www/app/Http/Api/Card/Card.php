@@ -5,6 +5,7 @@ namespace App\Http\Api\Card;
 use App\Entity\Card\CardEntity;
 use App\Http\Api\AbstractApiController;
 use App\Repository\Card\CardAbstractRepository;
+use App\Utils\Session;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Throwable;
