@@ -41,6 +41,6 @@ class Login extends AbstractApiController
             ], 500);
         }
 
-        $this->responseJson($response, []);
+        return $this->responseJson($response, []);
     }
 }

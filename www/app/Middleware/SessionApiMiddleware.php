@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class SessionMiddleware implements MiddlewareInterface
+class SessionApiMiddleware implements MiddlewareInterface
 {
 
     /**
@@ -30,7 +30,7 @@ class SessionMiddleware implements MiddlewareInterface
         if (!Session::isLoggedIn()) {
             return App::getInstace()
                 ->getResponseFactory()
-                ->createResponse()
+                ->createResponse(401, 'HTTP 401 UNAUTHORIZED')
                 ->withHeader('Location', '/login');
         }
 

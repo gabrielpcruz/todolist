@@ -1,54 +1,62 @@
 
-{% extends '@layout/layout.twig' %}
+{% extends '@layout/authentication.twig' %}
 
 {% block title %}
     Cadstrar
 {% endblock title %}
 
 {% block content %}
-    <form method="POST" id="user-form" class="a">
-        <div class="text-left">
-            <label for="name">Nome</label>
-            <input
-                    class="input-login-singup"
-                    autocomplete="off"
-                    type="text"
-                    placeholder="Usuário"
-                    name="name"
-                    id="name"
-                    value=""
-                    autofocus
-            >
-        </div>
 
-        <div class="text-left">
-            <label for="email">E-mail</label>
-            <input
-                    class="input-login-singup"
-                    autocomplete="off"
-                    type="email"
-                    placeholder="E-mail (email@gmail.com)"
-                    id="email"
-                    name="email"
-                    value=""
-            >
-        </div>
-        <div class="text-left">
-            <label for="password">Senha</label>
-            <input
-                    class="input-login-singup"
-                    autocomplete="off"
-                    type="password"
-                    placeholder="Senha"
-                    id="password"
-                    name="password"
-                    value=""
-            >
-        </div>
+    <div class="form-container">
+        <form id="user-form" method="POST" action="/signup"
+              class=" form-control"
+        >
+            <div class="mb-3">
+                <label for="email" class="form-label">Nome</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        placeholder="Digite seu nome"
+                        aria-describedby="emailHelp"
+                >
+                <div id="emailHelp" class="form-text">
+                    Nunca vamos compartilhar seu e-mail com ninguém.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="Digite seu e-mail"
+                        aria-describedby="emailHelp"
+                >
+                <div id="emailHelp" class="form-text">
+                    Nunca vamos compartilhar seu e-mail com ninguém.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Digite seu e-mail">
+            </div>
 
-        <div>
-            <a href="#" id="cadastrar" class="btn btn-block">Cadastrar</a>
-            <a href="/login" class="btn btn-block">Login</a>
-        </div>
+            <div class="d-grid gap-2">
+                <a href="/signup" id="signup" class="btn btn-primary" type="button">Cadastrar</a>
+                <hr>
+                <a href="/login" class="btn btn-outline-primary" type="button">Login</a>
+            </div>
+        </form>
+    </div>
+
+
     </form>
 {% endblock content %}

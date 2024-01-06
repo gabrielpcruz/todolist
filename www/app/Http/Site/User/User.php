@@ -10,7 +10,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class UserController extends AbstractSiteController
+class User extends AbstractSiteController
 {
     /**
      * @param Request $request

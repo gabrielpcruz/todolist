@@ -2,8 +2,12 @@
 
 namespace App\Repository\User;
 
+use App\Entity\Card\CardEntity;
 use App\Entity\User\UserEntity;
 use App\Repository\AbstractRepository;
+use DI\DependencyException;
+use DI\NotFoundException;
+use Throwable;
 
 class UserRepository extends AbstractRepository
 {
@@ -37,22 +41,7 @@ class UserRepository extends AbstractRepository
      */
     public function findUser(UserEntity $user): UserEntity|false
     {
-        $query = "SELECT * FROM user WHERE email = :email";
-
-        $parameters = [
-            ':email' => $user->email
-        ];
-
-        $user = $this->select($query, $parameters);
-
-        if (!count($user)) {
-            return false;
-        }
-
-        /** @var UserEntity $user */
-        $user = array_shift($user);
-
-        return $user;
+        return $this->findOneBy(['email' => $user->email]);
     }
 
     /**
@@ -62,12 +51,32 @@ class UserRepository extends AbstractRepository
      */
     public function authenticate(UserEntity $user, UserEntity $userRequest): bool
     {
-        $passwordRequest = md5($userRequest->getPassword());
-
-        if ($user->getPassword() != $passwordRequest) {
+        if (!password_verify($userRequest->getPassword(), $user->getPassword())) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * @param array $attributes
+     * @return UserEntity|null
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Throwable
+     */
+    public function create(array $attributes): ?UserEntity
+    {
+        return $this->connection()->transaction(function () use ($attributes) {
+
+            $user = new UserEntity();
+            $user->name = $attributes['name'];
+            $user->email = $attributes['email'];
+            $user->password = password_hash($attributes['password'],  PASSWORD_ARGON2ID );
+
+            $user->save();
+
+            return $user;
+        }, 3);
     }
 }

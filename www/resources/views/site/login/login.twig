@@ -1,45 +1,42 @@
-
-{% extends '@layout/layout.twig' %}
+{% extends '@layout/authentication.twig' %}
 
 {% block title %}
     Login
 {% endblock title %}
 
 {% block content %}
-    <div >
-        <form method="POST" action="/login"
-              class="a"
-        >
-            <h2>Login</h2>
 
-            <div class="text-left">
-                <label for="email">E-mail</label>
+    <div class="form-container">
+        <form id="login-form" method="POST" action="/login" class=" form-control">
+
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
                 <input
-                        autocomplete="off"
-                        class="input-login-singup"
                         type="email"
-                        placeholder="E-mail"
+                        class="form-control"
                         id="email"
                         name="email"
-                        value=""
-                        autofocus
+                        placeholder="Digite seu e-mail"
+                        aria-describedby="emailHelp"
                 >
+                <div id="emailHelp" class="form-text">
+                    Nunca vamos compartilhar seu e-mail com ninguém.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Digite seu e-mail">
             </div>
 
-            <div class="text-left">
-                <label for="password">Senha</label>
-                <input autocomplete="off"
-                       class="input-login-singup"
-                       type="password"
-                       placeholder="Senha"
-                       id="password"
-                       name="password"
-                       value=""
-                >
-            </div>
-            <div>
-                <a href="#" id="logar" class="btn btn-block">Logar</a>
-                <a href="/signup" class="btn btn-block">Cadastro de usuário</a>
+            <div class="d-grid gap-2">
+                <a href="#" id="logar" class="btn btn-primary" type="button">Logar</a>
+                <hr>
+                <a href="/signup" class="btn btn-outline-primary" type="button">Cadastro de usuário</a>
             </div>
         </form>
     </div>

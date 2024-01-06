@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS user
     id         INT(10) unsigned NOT NULL auto_increment,
     name       VARCHAR(45)      NOT NULL,
     email      VARCHAR(80)      NOT NULL,
-    password   VARCHAR(80)      NOT NULL,
+    password   VARCHAR(255)     NOT NULL,
     created_at DATETIME         NOT NULL DEFAULT NOW(),
     updated_at DATETIME         NOT NULL DEFAULT NOW(),
     deleted_at DATETIME,
