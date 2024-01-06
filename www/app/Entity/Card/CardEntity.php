@@ -5,7 +5,6 @@ namespace App\Entity\Card;
 use App\Entity\Board\BoardEntity;
 use App\Entity\Entity;
 use App\Entity\User\UserEntity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CardEntity extends Entity
