@@ -21,7 +21,7 @@ let HandleCardEvents = (function () {
     let eventNewCard = function (event) {
         let { target } = event;
 
-        let board = Board.getBoardByAddCard(target);
+        let board = Board.getBoardByTarget(target);
 
         let form = Card.createFormNewCard();
 
@@ -52,7 +52,7 @@ let HandleCardEvents = (function () {
         let text = $(card).find("[data-state='text']").text();
 
         let form = Card.createFormNewCard(text);
-        let board = Board.getBoardByAddCard(card);
+        let board = Board.getBoardByTarget(card);
 
         $(form).find('textarea').attr('data-position', $(card).position().top);
         $(form).find('textarea').attr('data-id', $(card).attr('id'));
@@ -81,7 +81,7 @@ let HandleCardEvents = (function () {
             return false;
         }
 
-        let board = Board.getBoardByTextArea(target);
+        let board = Board.getBoardByTarget(target);
 
         let board_id = $(board).attr('id').replace('board-', '');
 
@@ -106,6 +106,7 @@ let HandleCardEvents = (function () {
         let card_id = card.attr('id');
 
         let callbackFunction = function (response) {
+            let toastMessage = 'criado';
             let reportType = 'create';
             let position = $(card).data('position');
 
@@ -117,6 +118,7 @@ let HandleCardEvents = (function () {
             }
 
             if (card_id !== undefined) {
+                toastMessage = 'atualizado';
                 reportType = 'update';
                 position = $(target).data('position');
                 Card.updateStatusCard(card_id, board_id);
@@ -124,6 +126,7 @@ let HandleCardEvents = (function () {
 
             Board.insertCardIntoBoadPosition(board, card, position);
             WebSocketClient.report(reportType, Card.json($(card)));
+            Global.showToast(`Cartão ${toastMessage} com sucesso!`);
         }
 
         if (card_id === undefined) {
@@ -131,9 +134,17 @@ let HandleCardEvents = (function () {
                 $(target).remove()
             });
         } else {
-            HandleCardAjax.update(card).done(callbackFunction).always(() => {
-                $(target).remove()
-            });
+            HandleCardAjax.update(card)
+                .done(callbackFunction)
+                .fail(() => {
+                    Global.showToast(`Erro inesperado, a página será recarregada!`);
+                    setTimeout(() => {
+                        Global.reload()
+                    }, 2000);
+                })
+                .always(() => {
+                    $(target).remove();
+                });
         }
     }
 

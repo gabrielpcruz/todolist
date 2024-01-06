@@ -34,17 +34,11 @@ let User = (function() {
 
             Ajax.post('/v1/api/user/save', userForm)
                 .done((response) => {
-                    response = JSON.parse(response);
-
-                    if (response.result !== 'success') {
-                        alert('Nome inválido ou não preenchido!');
-                    }
-
                     Global.redirect('/login');
                 })
                 .fail((data) => {
                     let response = JSON.parse(data.responseText);
-                    alert(response.message);
+                    Global.showToast(response.error.description);
                 })
         });
     }

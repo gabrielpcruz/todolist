@@ -149,3 +149,8 @@ textarea {
     white-space: nowrap;
     overflow: hidden;
 }
+
+.toast-body {
+    background-color: #525a65;
+    color: white;
+}

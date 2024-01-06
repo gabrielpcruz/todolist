@@ -2,16 +2,12 @@
 
 namespace App\Middleware;
 
-use App\App;
 use App\Utils\Session;
-use DI\DependencyException;
-use DI\NotFoundException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Exception\HttpUnauthorizedException;
 
 class SessionApiMiddleware implements MiddlewareInterface
 {
@@ -20,18 +16,11 @@ class SessionApiMiddleware implements MiddlewareInterface
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
-     * @throws DependencyException
-     * @throws NotFoundException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!Session::isLoggedIn()) {
-            return App::getInstace()
-                ->getResponseFactory()
-                ->createResponse(401, 'HTTP 401 UNAUTHORIZED')
-                ->withHeader('Location', '/login');
+            throw new HttpUnauthorizedException($request);
         }
 
         return $handler->handle($request);

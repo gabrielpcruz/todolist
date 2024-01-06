@@ -8,20 +8,16 @@ let Global = (function() {
     };
 
     let showToast = function (message) {
-        let myToast = bootstrap.Toast.getOrCreateInstance($('#liveToast'));
-        $('#liveToast')
-            .find('.toast-body')
-            .html(message);
+        let toast = $('#liveToast');
+        let toastBody = ".toast-body";
 
-        myToast.show(1);
+        toast.find(toastBody).html(message);
 
-        $('#liveToast').on('hide.bs.toast', function (event) {
-            $('#liveToast')
-                .find('.toast-body')
-                .html('');
+        bootstrap.Toast.getOrCreateInstance(toast).show();
+
+        toast.on('hide.bs.toast', function (event) {
+            toast.find(toastBody).html('');
         });
-
-
     };
 
     return {

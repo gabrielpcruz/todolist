@@ -2,7 +2,6 @@
 
 namespace App\Repository\User;
 
-use App\Entity\Card\CardEntity;
 use App\Entity\User\UserEntity;
 use App\Repository\AbstractRepository;
 use DI\DependencyException;
@@ -37,9 +36,9 @@ class UserRepository extends AbstractRepository
 
     /**
      * @param UserEntity $user
-     * @return false|UserEntity
+     * @return UserEntity|null
      */
-    public function findUser(UserEntity $user): UserEntity|false
+    public function findUser(UserEntity $user): ?UserEntity
     {
         return $this->findOneBy(['email' => $user->email]);
     }

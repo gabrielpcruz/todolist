@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Utils\ValidateParameters;
 use stdClass;
 
 abstract class Controller
@@ -29,5 +30,21 @@ abstract class Controller
         }
 
         return $body;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getParametersArray(): array
+    {
+        return json_decode(json_encode($this->getParameters()), true);
+    }
+
+    /**
+     * @return ValidateParameters
+     */
+    protected function getValidation(): ValidateParameters
+    {
+        return new ValidateParameters();
     }
 }

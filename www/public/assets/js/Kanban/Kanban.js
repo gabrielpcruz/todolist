@@ -49,7 +49,7 @@ let Kanban = (function () {
 
             $(card).removeClass('is-dragging');
 
-            let board_id = Board.getBoardByCard(card).attr('id').replace('board-', '');
+            let board_id = Board.getBoardByTarget(card).attr('id').replace('board-', '');
 
             $(event.target).data('board_id', board_id);
             $(event.target).data('position', $(card).position().top);
@@ -97,7 +97,8 @@ let Kanban = (function () {
             .delete(card)
             .done(() => {
                 card.remove();
-                WebSocketClient.report('remove', Card.json(card))
+                WebSocketClient.report('remove', Card.json(card));
+                Global.showToast(`Cartão excluído com sucesso!`);
             });
     };
 

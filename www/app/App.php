@@ -3,6 +3,7 @@
 namespace App;
 
 use Adbar\Dot;
+use App\Utils\HttpErrorHandler;
 use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -34,7 +35,11 @@ class App
 
         self::setupDatabase();
 
-        $app->addErrorMiddleware(true, true, true);
+        $errorMiddleware = $app->addErrorMiddleware(true, true, true);
+        $errorMiddleware->setDefaultErrorHandler(new HttpErrorHandler(
+            $app->getCallableResolver(),
+            $app->getResponseFactory()
+        ));
 
         return $app;
     }

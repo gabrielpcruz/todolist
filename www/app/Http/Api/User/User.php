@@ -2,11 +2,11 @@
 
 namespace App\Http\Api\User;
 
-use App\Entity\User\UserEntity;
 use App\Http\Api\AbstractApiController;
 use App\Repository\User\UserRepository;
 use DI\DependencyException;
 use DI\NotFoundException;
+use DomainException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Throwable;
@@ -23,17 +23,14 @@ class User extends AbstractApiController
      */
     public function save(Request $request, Response $response): Response
     {
-        $body = $this->getParameters();
-
-        if (!$body->name || !$body->email || !$body->password) {
-            return $this->responseJson($response, [
-                'result' => 'error',
-                'message' => 'Invalid name'
-            ], 500);
-        }
+        $parameters = $this->getValidation()
+            ->addParameter('name', 'nome', FILTER_DEFAULT)
+            ->addParameter('email', 'e-mail', FILTER_VALIDATE_EMAIL)
+            ->addParameter('password', 'senha', FILTER_DEFAULT)
+            ->validate($this->getParametersArray());
 
         $userRepository = new UserRepository();
-        $userRepository->create($request->getParsedBody());
+        $userRepository->create($parameters);
 
         return $this->responseJson($response, [
             'result' => 'success',

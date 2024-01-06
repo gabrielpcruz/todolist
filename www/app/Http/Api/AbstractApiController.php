@@ -9,11 +9,11 @@ class AbstractApiController extends Controller
 {
     /**
      * @param Response $response
-     * @param $json
+     * @param array $json
      * @param int $code
      * @return Response
      */
-    protected function responseJson(Response $response, $json, int $code = 200): Response
+    protected function responseJson(Response $response, array $json = [], int $code = 200): Response
     {
         $response->getBody()->write(json_encode($json));
 

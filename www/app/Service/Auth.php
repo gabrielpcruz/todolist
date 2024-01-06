@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User\UserEntity;
+use App\Error\AuthenticationException;
 use App\Repository\User\UserRepository;
 use App\Utils\Session;
 
@@ -22,6 +23,7 @@ class Auth
      * @param $email
      * @param $password
      * @return bool
+     * @throws AuthenticationException
      */
     public function authenticate($email, $password): bool
     {
@@ -32,11 +34,11 @@ class Auth
         $userEntity = $this->userRepository->findUser($userRequest);
 
         if (!$userEntity) {
-            return false;
+            throw new AuthenticationException('Usuário ou senha inválidos');
         }
 
         if (!$this->userRepository->authenticate($userEntity, $userRequest)) {
-            return false;
+            throw new AuthenticationException('Usuário ou senha inválidos');
         }
 
         Session::setUser($userEntity);

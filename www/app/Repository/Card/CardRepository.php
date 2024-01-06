@@ -3,14 +3,14 @@
 namespace App\Repository\Card;
 
 use App\Entity\Card\CardEntity;
+use App\Error\TodoListException;
 use App\Repository\AbstractRepository;
 use App\Utils\Session;
 use DI\DependencyException;
 use DI\NotFoundException;
-use stdClass;
 use Throwable;
 
-class CardAbstractRepository extends AbstractRepository
+class CardRepository extends AbstractRepository
 {
     /**
      * @var string

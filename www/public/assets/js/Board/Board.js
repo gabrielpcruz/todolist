@@ -19,29 +19,11 @@ let Board = (function () {
 
     /**
      *
-     * @param addCardButon
+     * @param target
      * @returns {*|jQuery}
      */
-    let getBoardByAddCard = function (addCardButon) {
-        return $(addCardButon).parent().parent();
-    };
-
-    /**
-     *
-     * @param textAreaNewCard
-     * @returns {*|jQuery}
-     */
-    let getBoardByTextArea = function (textAreaNewCard) {
-        return $(textAreaNewCard).parent().parent().parent();
-    };
-
-    /**
-     *
-     * @param card
-     * @returns {*|jQuery}
-     */
-    let getBoardByCard = function (card) {
-        return $(card).parent().parent();
+    let getBoardByTarget = function (target) {
+        return $(target).closest('.board');
     };
 
     /**
@@ -180,9 +162,7 @@ let Board = (function () {
     }
 
     return {
-        getBoardByTextArea,
-        getBoardByAddCard,
-        getBoardByCard,
+        getBoardByTarget,
         insertCardIntoBoadPosition,
         createBoard,
         getLabelStatusByBoardId,
