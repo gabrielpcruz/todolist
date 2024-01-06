@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User\UserEntity;
 use App\Error\AuthenticationException;
+use App\Http\Api\User\User;
 use App\Repository\User\UserRepository;
 use App\Utils\Session;
 
@@ -20,17 +21,12 @@ class Auth
     }
 
     /**
-     * @param $email
-     * @param $password
+     * @param UserEntity $userRequest
      * @return bool
      * @throws AuthenticationException
      */
-    public function authenticate($email, $password): bool
+    public function authenticate(UserEntity $userRequest): bool
     {
-        $userRequest = new UserEntity();
-        $userRequest->email = $email;
-        $userRequest->password = $password;
-
         $userEntity = $this->userRepository->findUser($userRequest);
 
         if (!$userEntity) {

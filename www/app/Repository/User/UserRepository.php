@@ -16,31 +16,12 @@ class UserRepository extends AbstractRepository
     protected string $entityClass = UserEntity::class;
 
     /**
-     * @param UserEntity $userEntity
-     * @return void
-     */
-    public function save(UserEntity $userEntity): void
-    {
-        $query = "INSERT INTO user (name, email, password) values (:name, :email, :password)";
-
-        $passwordHash = md5($userEntity->getPassword());
-
-        $parameters = [
-            ':name' => $userEntity->getName(),
-            ':email' => $userEntity->getEmail(),
-            ':password' => $passwordHash
-        ];
-
-        $this->insert($query, $parameters);
-    }
-
-    /**
      * @param UserEntity $user
      * @return UserEntity|null
      */
     public function findUser(UserEntity $user): ?UserEntity
     {
-        return $this->findOneBy(['email' => $user->email]);
+        return $this->findOneBy(['email' => $user->getEmail()]);
     }
 
     /**
@@ -67,11 +48,10 @@ class UserRepository extends AbstractRepository
     public function create(array $attributes): ?UserEntity
     {
         return $this->connection()->transaction(function () use ($attributes) {
+            $user = new UserEntity($attributes);
 
-            $user = new UserEntity();
-            $user->name = $attributes['name'];
-            $user->email = $attributes['email'];
-            $user->password = password_hash($attributes['password'],  PASSWORD_ARGON2ID );
+            $password_hash = password_hash($attributes['password'], PASSWORD_ARGON2ID);
+            $user->setPassword($password_hash);
 
             $user->save();
 

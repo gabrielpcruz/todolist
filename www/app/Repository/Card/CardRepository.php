@@ -3,7 +3,6 @@
 namespace App\Repository\Card;
 
 use App\Entity\Card\CardEntity;
-use App\Error\TodoListException;
 use App\Repository\AbstractRepository;
 use App\Utils\Session;
 use DI\DependencyException;

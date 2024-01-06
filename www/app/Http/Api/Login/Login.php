@@ -2,6 +2,7 @@
 
 namespace App\Http\Api\Login;
 
+use App\Entity\User\UserEntity;
 use App\Error\AuthenticationException;
 use App\Error\ParameterInvalidException;
 use App\Error\ParameterNotImprovedException;
@@ -25,16 +26,13 @@ class Login extends AbstractApiController
     {
         Session::sessionDestroy();
 
-        $parameters = (object) $this->getValidation()
+        $parameters = $this->getValidation()
             ->addParameter('email', 'e-mail',  FILTER_VALIDATE_EMAIL)
             ->addParameter('password', 'senha' , FILTER_DEFAULT)
             ->validate($this->getParametersArray());
 
-        $email = $parameters->email;
-        $password = $parameters->password;
-
         $authService = new Auth();
-        $authService->authenticate($email, $password);
+        $authService->authenticate(new UserEntity($parameters));
 
         return $this->responseJson($response);
     }

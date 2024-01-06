@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS user
     created_at DATETIME         NOT NULL DEFAULT NOW(),
     updated_at DATETIME         NOT NULL DEFAULT NOW(),
     deleted_at DATETIME,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT user_unique_pk unique (email)
 );
 
 CREATE TABLE IF NOT EXISTS board

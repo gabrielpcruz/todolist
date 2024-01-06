@@ -15,6 +15,21 @@ class UserEntity extends Entity
     protected $table = 'user';
 
     /**
+     * @var string
+     */
+    protected string $name;
+
+    /**
+     * @var string
+     */
+    protected string $email;
+
+    /**
+     * @var string
+     */
+    protected string $password;
+
+    /**
      * @var string[]
      */
     protected $fillable = [
@@ -28,14 +43,6 @@ class UserEntity extends Entity
     ];
 
     /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->attributes['password'];
-    }
-
-    /**
      * @return HasMany
      */
     public function card(): HasMany
@@ -45,5 +52,68 @@ class UserEntity extends Entity
             'user_id',
             'id'
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        $this->name = $this->getAttribute('name');
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): UserEntity
+    {
+        $this->name = $name;
+        $this->setAttribute('name', $name);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        $this->email = $this->getAttribute('email');
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail(string $email): UserEntity
+    {
+        $this->email = $email;
+        $this->setAttribute('email', $email);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        $this->password = $this->getAttribute('password');
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     * @return $this
+     */
+    public function setPassword(string $password): UserEntity
+    {
+        $this->password = $password;
+        $this->setAttribute('password', $password);
+
+        return $this;
     }
 }

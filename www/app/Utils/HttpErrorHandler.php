@@ -11,7 +11,8 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpNotImplementedException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler;
-use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Throwable;
 
 class HttpErrorHandler extends ErrorHandler
@@ -23,6 +24,7 @@ class HttpErrorHandler extends ErrorHandler
     public const RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND';
     public const SERVER_ERROR = 'SERVER_ERROR';
     public const UNAUTHENTICATED = 'UNAUTHENTICATED';
+    public const REGISTRY_DUPLICATED = 'REGISTRY_DUPLICATED';
 
     protected function respond(): ResponseInterface
     {
@@ -48,10 +50,21 @@ class HttpErrorHandler extends ErrorHandler
             } elseif ($exception instanceof HttpNotImplementedException) {
                 $type = self::NOT_IMPLEMENTED;
             }
+
+        }
+
+        if ($exception instanceof QueryException) {
+            $description = $exception->getMessage();
+
+            if ($exception instanceof UniqueConstraintViolationException) {
+                $type = self::REGISTRY_DUPLICATED;
+                $description = 'Registro existente. Tente novamente com outros dados.';
+            }
         }
 
         if (
-            !($exception instanceof HttpException)
+            !($exception instanceof HttpException) &&
+            !($exception instanceof QueryException)
             && ($exception instanceof Throwable)
             && $this->displayErrorDetails
         ) {
