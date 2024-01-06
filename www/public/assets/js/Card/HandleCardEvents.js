@@ -111,8 +111,9 @@ let HandleCardEvents = (function () {
 
             let responseObject = JSON.parse(response);
 
-            if (Object.hasOwn(responseObject, 'cardId')) {
-                $(card).attr('id', responseObject.cardId);
+            if (Object.hasOwn(responseObject, 'id')) {
+                $(card).attr('id', responseObject.id);
+                $(card).append(Card.createSpanCardUser(responseObject.user_name));
             }
 
             if (card_id !== undefined) {
@@ -122,7 +123,7 @@ let HandleCardEvents = (function () {
             }
 
             Board.insertCardIntoBoadPosition(board, card, position);
-            WebSocketClient.report(reportType, Card.json(card));
+            WebSocketClient.report(reportType, Card.json($(card)));
         }
 
         if (card_id === undefined) {

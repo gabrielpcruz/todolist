@@ -33,24 +33,26 @@ class CardAbstractRepository extends AbstractRepository
             $card->fill($attributes);
             $card->save();
 
-            return $card;
+            return $this->findOneBy(['id' => $card->getId()]);
         }, 3);
     }
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return bool
+     * @return CardEntity|null
      * @throws DependencyException
      * @throws NotFoundException
      * @throws Throwable
      */
-    public function update(int $id, array $parameters): bool
+    public function update(int $id, array $parameters): ?CardEntity
     {
         return $this->connection()->transaction(function () use ($id, $parameters) {
             $card = $this->findOneBy(['id' => $id]);
 
-            return $card->update($parameters);
+            $card->update($parameters);
+
+            return $this->findOneBy(['id' => $id]);
         }, 3);
     }
 }

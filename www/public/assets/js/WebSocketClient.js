@@ -25,7 +25,8 @@ let WebSocketClient = (function () {
             cardObject.position,
             cardObject.description,
             cardObject.id,
-            cardObject.board_id
+            cardObject.board_id,
+            cardObject.user_name
         );
 
         Board.insertCardIntoBoadPosition(

@@ -5,17 +5,17 @@ let User = (function() {
 
     let validateForm = function () {
         if (!name.val().trim()) {
-            alert('Informe o seu nome!');
+            Global.showToast('Informe o seu nome!')
             return false;
         }
 
         if (!email.val().trim()) {
-            alert('Informe o seu e-mail!');
+            Global.showToast('Informe o seu e-mail!')
             return false;
         }
 
         if (!password.val().trim()) {
-            alert('Informe sua senha!');
+            Global.showToast('Informe sua senha!')
             return false;
         }
 
@@ -46,25 +46,6 @@ let User = (function() {
                     let response = JSON.parse(data.responseText);
                     alert(response.message);
                 })
-            // $.ajax({
-            //     url: ,
-            //     type: 'POST',
-            //     contentType:"application/json;",
-            //     dataType: "json",
-            //     data: userForm,
-            //     success: function (data) {
-            //         if (data.result !== 'success') {
-            //             alert('Nome inválido ou não preenchido!');
-            //         }
-            //
-            //         Global.redirect('/login');
-            //     },
-            //     error: function (data) {
-            //         let response = JSON.parse(data.responseText);
-            //
-            //         alert(response.message);
-            //     }
-            // });
         });
     }
 

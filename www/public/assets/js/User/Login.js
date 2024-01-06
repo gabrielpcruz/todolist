@@ -11,24 +11,7 @@ let Login = (function() {
                 .fail((data) => {
                     let response = JSON.parse(data.responseText);
                     alert(response.message);
-                })
-
-            // $.ajax({
-            //     url: '/user/login',
-            //     type: 'POST',
-            //     data: loginForm,
-            //     contentType:"application/json;",
-            //     dataType: "json",
-            //     success: function (data) {
-            //         console.log(data);
-            //         Global.redirect('/');
-            //     },
-            //     error: function (data) {
-            //         let response = JSON.parse(data.responseText);
-            //
-            //         alert(response.message);
-            //     }
-            // });
+                });
         });
     }
 

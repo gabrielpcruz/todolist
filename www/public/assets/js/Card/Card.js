@@ -5,7 +5,7 @@ let Card = (function () {
      * @param value
      * @returns {*|jQuery|HTMLElement}
      */
-    let createFormNewCard = function (value) {
+    let createFormNewCard = function (value = false) {
         let form = $('<form>');
         form.attr('id', 'new-card');
 
@@ -82,6 +82,7 @@ let Card = (function () {
             description: $(card).find("[data-state='text']").text(),
             position: $(card).data('position'),
             board_id: $(card).data('board_id'),
+            user_name: $(card).find('.user-card').text(),
         };
     };
 
@@ -199,6 +200,7 @@ let Card = (function () {
     return {
         createFormNewCard,
         createDivCard,
+        createSpanCardUser,
         updateStatusCard,
         json,
         object

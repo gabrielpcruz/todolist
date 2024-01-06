@@ -23,14 +23,14 @@ class Card extends AbstractApiController
         $cardRepository = new CardAbstractRepository();
         $card = $cardRepository->create($request->getParsedBody());
         $status = 500;
-        $id = false;
+        $cardResponse = [];
 
         if ($card instanceof CardEntity) {
             $status = 200;
-            $id = $card->getId();
+            $cardResponse = $card->toArray();
         }
 
-        return $this->responseJson($response, ['cardId' => $id], $status);
+        return $this->responseJson($response, $cardResponse, $status);
     }
 
     /**
@@ -43,13 +43,19 @@ class Card extends AbstractApiController
     public function update(Request $request, Response $response, array $args): Response
     {
         $parameters = $this->getParameters();
-
+        $status = 500;
+        $cardResponse = [];
         $cardRepository = new CardAbstractRepository();
         $parameters = json_decode(json_encode($parameters), true);
 
-        $status = $cardRepository->update($args['id'], $parameters) ? 200 : 500;
+        $card = $cardRepository->update($args['id'], $parameters);
 
-        return $this->responseJson($response, [], $status);
+        if ($card instanceof CardEntity) {
+            $status = 200;
+            $cardResponse = $card->toArray();
+        }
+
+        return $this->responseJson($response, $cardResponse, $status);
     }
 
     /**

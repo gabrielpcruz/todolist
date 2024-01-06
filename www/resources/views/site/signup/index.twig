@@ -1,4 +1,3 @@
-
 {% extends '@layout/authentication.twig' %}
 
 {% block title %}
@@ -20,6 +19,7 @@
                         name="name"
                         placeholder="Digite seu nome"
                         aria-describedby="emailHelp"
+                        required
                 >
                 <div id="emailHelp" class="form-text">
                     Nunca vamos compartilhar seu e-mail com ninguém.
@@ -34,29 +34,30 @@
                         name="email"
                         placeholder="Digite seu e-mail"
                         aria-describedby="emailHelp"
+                        required
                 >
                 <div id="emailHelp" class="form-text">
                     Nunca vamos compartilhar seu e-mail com ninguém.
                 </div>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">Senha</label>
                 <input
                         type="password"
                         id="password"
                         name="password"
                         class="form-control"
-                        placeholder="Digite seu e-mail">
+                        placeholder="Digite sua senha"
+                        required
+                >
             </div>
 
             <div class="d-grid gap-2">
-                <a href="/signup" id="signup" class="btn btn-primary" type="button">Cadastrar</a>
+                <a href="#" id="signup" class="btn btn-primary" type="button">Cadastrar</a>
                 <hr>
                 <a href="/login" class="btn btn-outline-primary" type="button">Login</a>
             </div>
         </form>
     </div>
 
-
-    </form>
 {% endblock content %}

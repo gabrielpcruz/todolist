@@ -1,8 +1,6 @@
-
 body {
     color: white;
     background-color: #525a65;
-
 }
 
 .form-container {
@@ -16,138 +14,15 @@ body {
     align-items: center;
 }
 
-/*.a > form {*/
-/*    background-color: #525a65;*/
-/*    border: none;*/
-
-/*}*/
-
-/*body, .canvas {*/
-/*    background-color: #525a65;*/
-/*    margin-left: 0;*/
-/*    margin-right: 0;*/
-/*}*/
-
-/*.navbar {*/
-/*    background-color: #33383f;*/
-/*}*/
-
-/*#kanban {*/
-/*    min-height: 91vh;*/
-/*    width: fit-content;*/
-/*    margin-top: 70px;*/
-/*    margin-right: 20px;*/
-/*    color: #b6c2cf;*/
-/*    padding-top: 10px;*/
-/*    padding-left: 10px;*/
-/*    overflow-x: auto;*/
-/*}*/
-
-/*.head-board {*/
-/*    min-height: 40px;*/
-/*}*/
-
-/*.board {*/
-/*    height: fit-content;*/
-/*    width: 300px;*/
-/*    background-color: #101204;*/
-/*    margin-right: 20px;*/
-/*    max-height: 85vh;*/
-/*    overflow-y: scroll;*/
-/*}*/
-
-/*.footer-board {*/
-/*    height: 40px;*/
-/*    margin-top: 5px;*/
-/*}*/
-
-/*.card {*/
-/*    min-height: 10px;*/
-/*    margin-top: 5px;*/
-/*    margin-bottom: 5px;*/
-/*    background-color: #323940;*/
-/*    color: #b6c2cf;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.card span:nth-child(1) {*/
-/*    padding-right: 40px;*/
-/*    text-align: justify;*/
-/*    padding-top: 15px;*/
-/*}*/
-
-/*.board:nth-last-child(0) {*/
-/*    margin-right: 100px;*/
-/*}*/
-
-/*.dropzone {*/
-/*    min-height: 1px;*/
-/*    margin-top: 5px;*/
-/*    margin-bottom: 5px;*/
-/*}*/
-
-/*.dropzone-dragging {*/
-/*    min-height: 40px;*/
-/*    transition: 1s;*/
-/*}*/
-
-/*.highlight {*/
-/*    background-color: rgba(50, 57, 64, 0.5);*/
-/*}*/
-
-/*.card, .dropzone {*/
-/*    transition: 400ms;*/
-/*}*/
-
-/*.is-dragging {*/
-/*    cursor: move;*/
-/*    opacity: 0.5;*/
-/*}*/
-
-/*.card-editing {*/
-/*    cursor: text;*/
-
-/*}*/
-
-/*.new-card {*/
-/*    height: fit-content;*/
-/*}*/
-
-/*textarea {*/
-/*    width: 100%;*/
-/*    resize: none;*/
-/*}*/
-
-/*.delete-card {*/
-/*    background-color: #3e0101b2;*/
-/*    padding: 19px;*/
-/*    position: absolute;*/
-/*    width: 10px;*/
-/*    height: 25px;*/
-/*    top: 1px;*/
-/*    right: 1px;*/
-/*    border-radius: 15px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.delete-card i {*/
-/*    position: absolute;*/
-/*    top: 5px;*/
-/*    right: 10px;*/
-/*}*/
-
-/*.status-card {*/
-/*    background-color: #e6e6e6;*/
-/*    position: absolute;*/
-/*    width: 48px;*/
-/*    top: 5px;*/
-/*    left: 5px;*/
-/*    border-radius: 15px;*/
-/*    cursor: pointer;*/
-/*    font-size: 9px;*/
-/*    color: black;*/
-/*    text-align: center;*/
-/*    font-weight: 900;*/
-/*}*/
+.toast-body {
+    background-color: #525a65;
+}
 
 
+@media only screen and (max-width: 600px) {
+    .form-container {
+        width: 90%;
+        display: flex;
+        justify-content: center;
+    }
+}
