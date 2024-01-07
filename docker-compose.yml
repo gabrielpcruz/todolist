@@ -14,7 +14,7 @@ services:
       - ./config/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
     expose:
       - "9000"
-    command: sh -c " if [ ! -d "vendor" ]; then export COMPOSER_ALLOW_XDEBUG=1 && composer install --ignore-platform-reqs; fi && chmod +x /usr/share/nginx/html/docs/scripts/bash/websocket_server.sh && php-fpm "
+    command: sh -c " if [ ! -d "vendor" ]; then export XDEBUG_MODE=off && composer install --ignore-platform-reqs; fi && chmod +x /usr/share/nginx/html/docs/scripts/bash/websocket_server.sh && php-fpm "
   mysql:
     build:
       context: ./bin/mysql

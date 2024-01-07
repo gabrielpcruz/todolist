@@ -73,12 +73,12 @@ docker compose up -d --force-recreate
 
 Aguarde um ou dois minutos para que o sistema consiga instalar as depedências do projeto, se tudo ocorrer bem, o sistema deve estar operante na seguinte url: [TODO LIST (localhost)](http://localhost/).
 
-O projeto já rodar automaticamente o comando: ``` composer install ```, isso faz com que a aplicação demore mais ou menos um dois para ficar pronta para execução, a depender da sua conexão com a internet.
+O projeto já executa automaticamente o comando: ``` composer install ```, isso faz com que a aplicação demore mais ou menos um dois para ficar pronta para execução, a depender da sua conexão com a internet.
 
 Esse processo foi feito para facilitar o uso, entretanto, requer acompanhamento. Caso o sistema não consiga instalar as dependências com sucesso, por gentileza execute o comando abaixo no seu terminal:
 
 ```
-docker exec todo_list_app bash -c  "export COMPOSER_ALLOW_XDEBUG=1 && composer install --ignore-platform-reqs" bash
+docker exec todo_list_app bash -c  "export XDEBUG_MODE=off && composer install --ignore-platform-reqs" bash
 ```
 
 Outro problema que pode acontecer é o sistema não conseguir ajustar corretamente a permissão de execução do arquivo  ```www/docs/scripts/bash/websocket_server.sh```. Caso isso ocorra, por gentileza execute o seguinte comando:
