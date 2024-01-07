@@ -61,11 +61,31 @@ Também é necessário garantir que as seguintes portas do seu computador/servid
    - **8080**
    - **8081**
 
+Para que o servidor websocket funcione também no mobile, é necessário sua intervenção, uma vez que o sistema vai ser executado na sua máquina, o seu celular precisa estar conectado à mesma rede do computador
+e o endereço configurado na variável ```socketUrl``` do arquivo ```www/public/assets/js/WebSocketClient.js``` precisa ser ajustado para o endereço IP local da sua máquina.  
+
+
+
 Após seguir os passos anteriores, navegue pelo terminal até a raiz do projeto e execute o seguinte comando:
 ```
 docker compose up -d --force-recreate   
 ```
 
+Aguarde um ou dois minutos para que o sistema consiga instalar as depedências do projeto, se tudo ocorrer bem, o sistema deve estar operante na seguinte url: [TODO LIST (localhost)](http://localhost/).
+
+O projeto já rodar automaticamente o comando: ``` composer install ```, isso faz com que a aplicação demore mais ou menos um dois para ficar pronta para execução, a depender da sua conexão com a internet.
+
+Esse processo foi feito para facilitar o uso, entretanto, requer acompanhamento. Caso o sistema não consiga instalar as dependências com sucesso, por gentileza execute o comando abaixo no seu terminal:
+
+```
+docker exec todo_list_app bash -c  "export COMPOSER_ALLOW_XDEBUG=1 && composer install --ignore-platform-reqs" bash
+```
+
+Outro problema que pode acontecer é o sistema não conseguir ajustar corretamente a permissão de execução do arquivo  ```www/docs/scripts/bash/websocket_server.sh```. Caso isso ocorra, por gentileza execute o seguinte comando:
+
+```
+docker exec todo_list_app bash -c  "chmod +x /usr/share/nginx/html/docs/scripts/bash/websocket_server.sh" bash
+```
 Pronto! O TODO LIST está pronto para uso.
 
 

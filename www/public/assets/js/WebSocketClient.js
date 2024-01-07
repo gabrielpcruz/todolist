@@ -1,5 +1,5 @@
 let WebSocketClient = (function () {
-    let socketUrl = '192.168.1.12';
+    let socketUrl = 'localhost';
 
     let socket = false;
 
