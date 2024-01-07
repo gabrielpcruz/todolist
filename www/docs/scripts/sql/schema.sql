@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS card
 (
     id           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id      INT(10) UNSIGNED NULL,
+    board_id     INT(10) UNSIGNED NOT NULL,
     description  VARCHAR(300) NOT NULL,
     position     INT(10) UNSIGNED NOT NULL,
-    board_id     INT(10) UNSIGNED NOT NULL,
     created_at   DATETIME DEFAULT NOW() NOT NULL,
     updated_at   DATETIME DEFAULT NOW() NOT NULL,
     deleted_at   DATETIME,

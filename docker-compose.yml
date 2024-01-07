@@ -23,7 +23,7 @@ services:
     depends_on:
       - app
     ports:
-      - "9909:3306"
+      - "8081:3306"
     networks:
       - container_default
     environment:
