@@ -86,6 +86,13 @@ Outro problema que pode acontecer é o sistema não conseguir ajustar corretamen
 ```
 docker exec todo_list_app bash -c  "chmod +x /usr/share/nginx/html/docs/scripts/bash/websocket_server.sh" bash
 ```
+
+Outro possível problema que pode acontecer é a rede container_default não estar presente no seu computador, caso isso ocorra, execute o seguinte comando:
+
+```
+docker network create container_default
+```
+
 Pronto! O TODO LIST está pronto para uso.
 
 
