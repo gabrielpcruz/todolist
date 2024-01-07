@@ -1,6 +1,15 @@
+### Links úteis
+[Como configurar o ambiente e executar o sistema](#como-configurar-o-ambiente-e-executar-o-sistema)
+
+[Banco de dados](#a-estrutura-do-banco-de-dados-está-disposta-da-seguinte-forma)
+
+[Telas do sistema](#abaixo-algumas-telas-do-sistema)
+
+---
+
 # TODO LIST
 
-O TODO LIST é um sistema de gerenciamento de tarefas que visa proporcionar ao usuário uama forma simples de visualizar seu progresso em suas atividades cotidianas.
+O TODO LIST é um sistema de gerenciamento de tarefas que visa proporcionar ao usuário uma forma simples de visualizar seu progresso em suas atividades cotidianas.
 
 O usuário dispõe de três colunas TODO, DOING e DONE para acomodar cada tarefa de acordo com seu status.
 
@@ -17,9 +26,9 @@ Também é possível ter mais de um usuário logado no sistema, permitindo assim
 O TODO LIST se limita a apenas essas funcionalidades:
 
 - Criação/Edição/Exclusão de cartões que simbolizam tarefas a serem realizadas
-  - Para editar um cartão, clique duas vezes sobre o cartão e uma caixa de edição será disponibilizada.
-  - Para excluir um cartão, passe o mouse sobre o cartão e o botão de exclusão será exibido, no mobile, basta clicar no canto superio direito do cartão.
-- Possibilidade de mover os cartões entre as colunas de TODO, DOING e DONE.
+  - Para editar um cartão, clique duas vezes sobre o mesmo e uma caixa de edição será disponibilizada.
+  - Para excluir um cartão, passe o mouse sobre o mesmo e um botão de exclusão será exibido, no mobile, basta clicar no canto superio direito do cartão.
+- Possibilidade de mover os cartões entre as colunas de **TODO**, **DOING** e **DONE**.
   - Para arrastar um cartão, é necessário clicar e segurar nele, e em seguida arrastá-lo para a coluna desejada.
 - Cadastro de usuários para acesso ao sistema e controle para que apenas esses usuários possam interagir com a ferramenta.
 - Atualização em tempo real do quadro TODO LIST, todos os usuários logados podem acompanhar em tempo real o que os outros usuários estão fazendo.
@@ -28,7 +37,7 @@ O TODO LIST se limita a apenas essas funcionalidades:
 
 ## Como configurar o ambiente e executar o sistema
 
-A estrutura do projeto foi pensada em faciliar ao máximo o setup do sistema. 
+A estrutura do projeto foi pensada para facilitar ao máximo o setup do sistema. 
 
 > Para que o sistema funcione corretamente, é necessário que o docker e o docker compose estejam instalados na sua máquina, pelo menos nas versões a seguir ou superiores:
 > ```
@@ -43,16 +52,16 @@ A estrutura do projeto foi pensada em faciliar ao máximo o setup do sistema.
 
 ---
 
-Na raiz do projeto existe o arquivo "sample.env", você precisa renomeá-lo para apenas ".env" antes de executar o comando a seguir.
+Na raiz do projeto existe o arquivo **sample.env**, você precisa renomeá-lo para apenas **.env** antes de executar o comando a seguir.
 
 
 Também é necessário garantir que as seguintes portas do seu computador/servidor não estão sendo usadas por outros containers:
-   - 9000
-   - 80
-   - 8080 
-   - 8081
+   - **9000**
+   - **80**
+   - **8080**
+   - **8081**
 
-Após seguir os passos anteriores, navegue pelo terminal até a raiz do projeto e execute o comando a seguir:
+Após seguir os passos anteriores, navegue pelo terminal até a raiz do projeto e execute o seguinte comando:
 ```
 docker compose up -d --force-recreate   
 ```
@@ -70,7 +79,7 @@ Pronto! O TODO LIST está pronto para uso.
 |   user | id, name, email, password, created_at, updated_at, deleted_at                     |
 
 
-Abaixo podemos ver o script de criação do banco de dados:
+### Abaixo podemos ver o script de criação do banco de dados:
 
 ``` 
 DROP DATABASE IF EXISTS todolist;
