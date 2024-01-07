@@ -89,6 +89,7 @@ class BoardEntity extends Entity
     {
         return $this
             ->hasMany(CardEntity::class, 'board_id', 'id')
+            ->where(['deleted_at' => null])
             ->orderBy('card.position', 'ASC')
             ->orderBy('card.updated_at', 'DESC');
     }

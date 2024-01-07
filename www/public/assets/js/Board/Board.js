@@ -155,6 +155,8 @@ let Board = (function () {
                 );
 
                 Board.insertCardIntoBoadPosition(divBoard, divCard, card.position);
+
+                Kanban.handleCardOnDone(divCard, board.id);
             });
         }
 

@@ -41,6 +41,8 @@ let WebSocketClient = (function () {
 
         Card.updateStatusCard(card.id, card.board_id);
 
+        Kanban.handleCardOnDone($(`#${card.id}`), card.board_id);
+
         Board.insertCardIntoBoadPosition(
             $(`#board-${card.board_id}`),
             $(`#${card.id}`),

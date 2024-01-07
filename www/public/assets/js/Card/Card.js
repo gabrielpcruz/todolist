@@ -92,6 +92,7 @@ let Card = (function () {
      * @param description
      * @param card_id
      * @param board_id
+     * @param user_name
      * @returns {*|jQuery|HTMLElement}
      */
     let createDivCard = function (

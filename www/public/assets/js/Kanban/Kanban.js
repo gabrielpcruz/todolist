@@ -27,12 +27,6 @@ let Kanban = (function () {
         });
     }
 
-    /**
-     *
-     * @param event
-     */
-    let drag = function (event) {
-    }
 
     /**
      *
@@ -55,6 +49,8 @@ let Kanban = (function () {
             $(event.target).data('position', $(card).position().top);
 
             Card.updateStatusCard($(event.target).attr('id'), board_id);
+
+            Kanban.handleCardOnDone(card, board_id);
 
             HandleCardAjax.update(card).done(() => {
                 WebSocketClient.report('dragging', Card.json(card))
@@ -108,19 +104,23 @@ let Kanban = (function () {
      */
     let addEventsToCard = function (card) {
         $(card).on('dragstart', dragstart);
-        $(card).on('drag', drag);
         $(card).on('dragend', dragend);
         $(card).on('mouseover', showDeleteButton);
         $(card).on('mouseleave', hideDeleteButton);
         $($(card).find("[data-state='button']")).on('click', removeCard);
     };
 
-    /**
-     *
-     * @param event
-     */
-    let dragenter = function (event) {
-    };
+    let cardOnDone = function (card) {
+        $(card).find("span[data-state='button']").removeClass('d-none');
+        $(card).off();
+        $(card).removeAttr('draggable');
+    }
+
+    let handleCardOnDone = function (card, board_id) {
+        if (parseInt(board_id) === 3) {
+            cardOnDone(card);
+        }
+    }
 
     /**
      *
@@ -138,27 +138,10 @@ let Kanban = (function () {
 
     /**
      *
-     * @param event
-     */
-    let dragleave = function (event) {
-    };
-
-    /**
-     *
-     * @param event
-     */
-    let drop = function (event) {
-    };
-
-    /**
-     *
      * @param dropzone
      */
     let addEventsToDropzone = function (dropzone) {
-        $(dropzone).on('dragenter', dragenter);
         $(dropzone).on('dragover', dragover);
-        $(dropzone).on('dragleave', dragleave);
-        $(dropzone).on('drop', drop);
     };
 
     /**
@@ -187,6 +170,7 @@ let Kanban = (function () {
             fillKanban();
         },
         addEventsToCard,
+        handleCardOnDone,
         addEventsToDropzone,
     }
 })();
