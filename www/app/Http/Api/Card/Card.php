@@ -2,7 +2,6 @@
 
 namespace App\Http\Api\Card;
 
-use App\Entity\Card\CardEntity;
 use App\Http\Api\AbstractApiController;
 use App\Repository\Card\CardRepository;
 use Slim\Psr7\Request;
