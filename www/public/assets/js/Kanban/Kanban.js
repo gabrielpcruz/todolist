@@ -113,6 +113,7 @@ let Kanban = (function () {
     let cardOnDone = function (card) {
         $(card).find("span[data-state='button']").removeClass('d-none');
         $(card).off();
+        $(card).find('span').off('dblclick');
         $(card).removeAttr('draggable');
     }
 
